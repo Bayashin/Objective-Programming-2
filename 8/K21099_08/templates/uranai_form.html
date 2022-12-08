@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>占い</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='uranai.css') }}">
+</head>
+<body>
+    <main>
+    <h1>占い</h1>
+    <form action="/uranai/play" method="POST">
+    <p class="name_input">
+        <label for="your_name">名前: </label>
+        <input type="text" id="your_name" name="name">
+    </p>
+    <p class="birthday_input">
+        <label for="your_birthday">生年月日: </label>
+        <input type="date" id="birthday" name="birthday">
+    </p>
+    <button type="submit">占う</button>
+    </form>
+    </main>
+</body>
+</html>

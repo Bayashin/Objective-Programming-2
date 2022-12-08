@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>第8回課題</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+<style type="text/css">
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+code {
+white-space: pre-wrap;
+}
+span.smallcaps {
+font-variant: small-caps;
+}
+span.underline {
+text-decoration: underline;
+}
+div.column {
+display: inline-block;
+vertical-align: top;
+width: 50%;
+}
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p,
+table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 {
+font-size: 2rem;
+margin: 2rem auto 1rem;
+text-align: center;
+}
+h2 {
+font-size: 1.75rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h3 {
+font-size: 1.5rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h4 {
+font-size: 1.25rem;
+margin: 2rem 0 1rem;
+}
+h5 {
+font-size: 1.2rem;
+margin: 2rem 0 1rem;
+}
+h6 {
+font-size: 1.1rem;
+margin: 2rem 0 1rem;
+}
+ul,
+ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li,
+ol li {
+padding-left: .5rem;
+}
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+width: 100% !important;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+img,
+iframe,
+figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+div.sourceCode {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+margin-top: 1rem;
+margin-bottom: 1rem;
+border-radius: 4px;
+padding: 1rem;
+}
+div.sourceCode pre,
+div.sourceCode code {
+background-color: transparent;
+margin: 0;
+}
+pre code,
+pre tt {
+background-color: transparent;
+border: none;
+}
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+margin: 0;
+padding: 0;
+vertical-align: top;
+border: none;
+}
+table.sourceCode pre {
+padding: 2px;
+margin: 0;
+border: none;
+color: inherit;
+}
+table.sourceCode code {
+color: inherit;
+}
+table.sourceCode {
+width: 100%;
+line-height: 100%;
+}
+td.lineNumbers {
+text-align: right;
+color: #aaaaaa;
+border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">第8回課題</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習2</p>
+<p>じゃんけんアプリのカスタマイズと、占いアプリを作ろう</p>
+</blockquote>
+<h2 id="じゃんけんアプリに以下２つの課題を追加してください">じゃんけんアプリに以下２つの課題を追加してください</h2>
+<p>講義内で作成したじゃんけんアプリに対して、課題1はじゃんけんアプリ自体を変更、課題2はじゃんけんアプリはそのままで占いアプリを一緒に混在するように1つのプロジェクトで行ってください。</p>
+<h2 id="課題1じゃんけんアプリのカスタマイズ">課題1：じゃんけんアプリのカスタマイズ</h2>
+<p>作成したじゃんけんアプリに、以下の機能を追加してください。</p>
+<ol type="1">
+<li>接待モードの追加
+<ul>
+<li>入力フォームに接待モードのチェックボックスを追加する</li>
+<li>接待モードの場合、CPUは絶対に負けてくれる（後出しであってもグーが出ていることにして負けてくれる）</li>
+</ul></li>
+<li>プレイヤーが勝った場合にメッセージを赤くする
+<ul>
+<li>実装手法は問いません（結果表示のHTMLに対してstyle属性を設定する方法が簡単です）</li>
+</ul></li>
+</ol>
+<p>課題のサンプルプログラムは以下のURLで確認できます。</p>
+<p>アクセスがないとサーバーは通電しておらず寝ているため、最初のアクセスには時間がかかります。
+画像等が表示されていない場合は、リロードで解決することがあります。</p>
+<ul>
+<li><a href="https://janken-and-uranai.onrender.com/a_janken" target="_blank">じゃんけんゲーム（第8回課題1サンプル）</a></li>
+</ul>
+<hr />
+<h2 id="課題2占いアプリの作成">課題2：占いアプリの作成</h2>
+<p>占いアプリを作成します。</p>
+<p>以下の仕様を満たすアプリを作成してください。</p>
+<ol type="1">
+<li>入力画面は、<code>/uranai</code>でアクセスできる</li>
+<li>入力画面には、生年月日と名前が入力できる</li>
+<li>送信ボタンは「占う」ボタンとして作成し、<code>/uranai/play</code>へPOSTとして送信する</li>
+<li>入力された生年月日と名前を使い、以下の計算式によって占い結果を5段階で返す
+<ul>
+<li>現在日付を<code>yyyyMMdd</code>形式で数値化する</li>
+<li>生年月日を<code>yyyyMMdd</code>形式で数値化する</li>
+<li>数値化した現在日付から生年月日を減算し、結果の絶対値を算出する</li>
+<li>「減算結果の絶対値」と「名前の文字数」を掛け算にて算出する</li>
+<li>「掛け算結果を5で割った余り」を<code>List:[5, 1, 3, 2, 4]</code>のインデックスとして使用し取り出した数値要素を占い結果とする</li>
+<li>1〜5の数値で得られる5段階の占い結果に対して、それぞれ各段階における適当なメッセージも添えること</li>
+</ul></li>
+<li>入力画面、占い結果のページは各自で装飾を考えて実装する</li>
+<li>以下の入力不備があった場合、占い結果は1とし、メッセージは「入力不備で占えませんでした」とする
+<ul>
+<li>生年月日が未入力</li>
+<li>生年月日のデータ形式が日付に変換できない</li>
+<li>名前が未入力</li>
+</ul></li>
+</ol>
+<p>その他の細かい仕様は、各自の判断で実装して構いません。</p>
+<p>あくまでサンプルプログラムですが、以下のリンク先に、私が上記の仕様で作成したアプリを公開しておきます。</p>
+<p>アクセスがないとサーバーは通電しておらず寝ているため、最初のアクセスには時間がかかります。
+画像等が表示されていない場合は、リロードで解決することがあります。</p>
+<ul>
+<li><a href="https://janken-and-uranai.onrender.com/uranai" target="_blank">占い（第8回課題2サンプル）</a></li>
+</ul>
+<p><em><strong>※デザインや☆を使った表現などは、仕様にはありません。各自で表現方法や装飾の仕方等考えて実装してください。<br>サンプルと全く同じアプリケーションでの提出は減点とする場合もあります。</strong></em></p>
+<hr />
+<h2 id="課題の提出について">課題の提出について</h2>
+<p>プロジェクトディレクトリを圧縮してmoodleの第8回課題提出に提出してください。</p>
+</body>
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>Flaskでじゃんけんアプリを作ろう</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #c4a000; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #000000; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #000000; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #000000; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+code {
+white-space: pre-wrap;
+}
+span.smallcaps {
+font-variant: small-caps;
+}
+span.underline {
+text-decoration: underline;
+}
+div.column {
+display: inline-block;
+vertical-align: top;
+width: 50%;
+}
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p,
+table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 {
+font-size: 2rem;
+margin: 2rem auto 1rem;
+text-align: center;
+}
+h2 {
+font-size: 1.75rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h3 {
+font-size: 1.5rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h4 {
+font-size: 1.25rem;
+margin: 2rem 0 1rem;
+}
+h5 {
+font-size: 1.2rem;
+margin: 2rem 0 1rem;
+}
+h6 {
+font-size: 1.1rem;
+margin: 2rem 0 1rem;
+}
+ul,
+ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li,
+ol li {
+padding-left: .5rem;
+}
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+width: 100% !important;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+img,
+iframe,
+figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+div.sourceCode {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+margin-top: 1rem;
+margin-bottom: 1rem;
+border-radius: 4px;
+padding: 1rem;
+}
+div.sourceCode pre,
+div.sourceCode code {
+background-color: transparent;
+margin: 0;
+}
+pre code,
+pre tt {
+background-color: transparent;
+border: none;
+}
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+margin: 0;
+padding: 0;
+vertical-align: top;
+border: none;
+}
+table.sourceCode pre {
+padding: 2px;
+margin: 0;
+border: none;
+color: inherit;
+}
+table.sourceCode code {
+color: inherit;
+}
+table.sourceCode {
+width: 100%;
+line-height: 100%;
+}
+td.lineNumbers {
+text-align: right;
+color: #aaaaaa;
+border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">Flaskでじゃんけんアプリを作ろう</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習2</p>
+<p>WebアプリケーションフレームワークのFlaskを使ってみましょう<br>じゃんけんアプリをコピペで作成しながらFlaskを使ったWebアプリケーションの作成の手順をおさらいしましょう。</p>
+</blockquote>
+<h2 id="1-プロジェクトディレクトリの用意">1.
+プロジェクトディレクトリの用意</h2>
+<p>じゃんけんアプリと、今回の課題のアプリを同じプロジェクトで作成します。</p>
+<p>そのため、任意の適当な場所に「<code>K00000_08</code>」のように学籍番号_08の形式でディレクトリを作成してください。</p>
+<p>また、VS
+Codeなどのエディタは、作成したディレクトリで開き、以下のディレクトリ構成を用意してください。</p>
+<pre><code>[K00000_08]
+  ├[static]
+  │  └今は空でOK
+  ├[templates]
+  │  └今は空でOK
+  └main.py ⇠ プロジェクトのエントリポイント</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd <span class="co"># ホームディレクトリに移動</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd work/oop2 <span class="co"># 作業ディレクトリに移動</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir K00000_08</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd K00000_08</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir static</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir templates</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch main.py</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> code .</span></code></pre></div>
+<h2 id="2-アプリケーションの設計を考える">2.
+アプリケーションの設計を考える</h2>
+<p>じゃんけんアプリを作成するにあたって、どのようなアプリケーションにするかを考えます。</p>
+<p>本当は皆さんに考えていただくのが良いのですが、今回は、私の方で以下のように考えました。</p>
+<ol type="1">
+<li>入力画面では、名前とじゃんけんの自分の手を選ぶようにする
+<ul>
+<li>名前と手は、未入力、未選択でも可能として、手が未選択の場合は後出し扱いとする</li>
+</ul></li>
+<li>「じゃんけん」ボタンを押すと、入力内容をサーバーに送信する</li>
+<li>サーバー側では、ランダムなCPUの手と、送信した手で比較し勝敗をレスポンスでもらう
+<ul>
+<li>このとき、名前が未入力だった場合は、「名無しさん」という名前を勝手に設定し、手が未選択だった場合は、無条件でCPUの勝ちとする</li>
+</ul></li>
+<li>レスポンスでもらった結果表示画面には、戻るボタンを配置し、戻るボタン押下時にはブラウザバックを行う処理をJavaScriptで追加する</li>
+</ol>
+<p>大まかな流れを適当に文章化しました。</p>
+<p>作成する画面の構成は、以下の3画面となります。</p>
+<ol type="1">
+<li>プロジェクトのトップ（じゃんけんアプリや、課題のアプリへのリンクを配置するだけ）
+<ul>
+<li><code>/</code>でルーティング</li>
+</ul></li>
+<li>じゃんけんアプリの入力フォーム
+<ul>
+<li><code>/janken</code>でルーティング</li>
+</ul></li>
+<li>じゃんけんデータ送信先とじゃんけん結果表示画面
+<ul>
+<li><code>/janken/play</code>でルーティング（POSTのみ受け付け）</li>
+</ul></li>
+</ol>
+<p>これを順に実装していきましょう。</p>
+<h2 id="3-アプリケーションのエントリポイントを作成する">3.
+アプリケーションのエントリポイントを作成する</h2>
+<p><code>main.py</code>の中身を以下のPythonコードで置き換えます。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask, request, render_template</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random <span class="co"># ランダムデータ作成のためのライブラリ</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. プロジェクトのトップ（じゃんけんアプリや、課題のアプリへのリンクを配置するだけ）</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/&#39;</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> index():</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(<span class="st">&#39;index.html&#39;</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. じゃんけんアプリの入力フォーム</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/janken&#39;</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> janken():</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># じゃんけんの入力画面のテンプレートを呼び出し</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(<span class="st">&#39;janken_form.html&#39;</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. じゃんけんデータ送信先とじゃんけん結果表示画面</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/janken/play&#39;</span>, methods<span class="op">=</span>[<span class="st">&quot;POST&quot;</span>])</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> janken_play():</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span> <span class="co"># 関数の中身を空にできないので、pass構文を使って埋めてます</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    app.run()</span></code></pre></div>
+<h2 id="4-プロジェクトのトップじゃんけんアプリや課題のアプリへのリンクを配置するだけ画面を作る">4.
+プロジェクトのトップ（じゃんけんアプリや、課題のアプリへのリンクを配置するだけ）画面を作る</h2>
+<p><code>main.py</code>内の以下の関数にて、指定されているテンプレートファイルを作成します。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/&#39;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> index():</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(<span class="st">&#39;index.html&#39;</span>)</span></code></pre></div>
+<p><code>templates</code>ディレクトリ以下に、<code>index.html</code>という名前で以下のHTMLファイルを作成してください。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;ja&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;title&gt;</span>第８回課題<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1&gt;</span>K00000 - 第８回課題<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;ol&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;/janken&quot;</span><span class="kw">&gt;</span>じゃんけんゲーム<span class="kw">&lt;/a&gt;&lt;/li&gt;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/ol&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>学籍番号等は、適宜変更してください。</p>
+<p>配置後は、いったん動作確認をしておくと良いでしょう。</p>
+<h2 id="5-じゃんけんアプリの画面を作成する">5.
+じゃんけんアプリの画面を作成する</h2>
+<p>じゃんけんアプリの画面は、<code>templates</code>ディレクトリに<code>janken_form.html</code>というファイル名で、以下の入力フォームを用意します。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;ja&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;title&gt;</span>じゃんけんゲーム<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;link</span> <span class="er">rel</span><span class="ot">=</span><span class="st">&quot;stylesheet&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken.css&#39;) }}&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;main&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;h1&gt;</span>じゃんけんゲーム<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;form</span> <span class="er">action</span><span class="ot">=</span><span class="st">&quot;/janken/play&quot;</span> <span class="er">method</span><span class="ot">=</span><span class="st">&quot;POST&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;p</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;name_input&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;your_name&quot;</span><span class="kw">&gt;</span>名前: <span class="kw">&lt;/label&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;your_name&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;name&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;/p&gt;</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;fieldset</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;janken_hand&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;radio&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;hand_rock&quot;</span> <span class="er">value</span><span class="ot">=</span><span class="st">&quot;rock&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;hand&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;hand_rock&quot;</span><span class="kw">&gt;&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken_gu.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Rock&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;&lt;/label&gt;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;radio&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;hand_scissor&quot;</span> <span class="er">value</span><span class="ot">=</span><span class="st">&quot;scissor&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;hand&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;hand_scissor&quot;</span><span class="kw">&gt;&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken_choki.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Scissor&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;&lt;/label&gt;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;radio&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;hand_paper&quot;</span> <span class="er">value</span><span class="ot">=</span><span class="st">&quot;paper&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;hand&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;hand_paper&quot;</span><span class="kw">&gt;&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken_pa.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Paper&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;&lt;/label&gt;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;/fieldset&gt;</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;button</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span>じゃんけん<span class="kw">&lt;/button&gt;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/main&gt;</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>このHTMLのポイントは、以下の3点です。</p>
+<ol type="1">
+<li>入力フォームである<code>&lt;form action=&quot;/janken/play&quot; method=&quot;POST&quot;&gt;〜&lt;/form&gt;</code>にてSubmit時のデータ送信先URLとHTTP
+methodを指定している</li>
+<li>名前の入力は、<code>&lt;input type=&quot;text&quot; id=&quot;your_name&quot; name=&quot;name&quot;&gt;</code>で入力を受け付け、送信時のデータの名前は<code>name</code>である</li>
+<li>手の指定は、<code>&lt;input type=&quot;radio&quot; id=&quot;hand_rock&quot; value=&quot;rock&quot; name=&quot;hand&quot;&gt;</code>の3つのラジオボタンで入力を受け付ける。送信時のデータの名前は<code>hand</code>である
+<ul>
+<li>初期値を設定していない。</li>
+<li>未選択でも送信は可能</li>
+<li>サーバー側では、handには選択されたinputタグのvalue属性の値が入る</li>
+</ul></li>
+</ol>
+<h2 id="6-静的ファイルの配置">6. 静的ファイルの配置</h2>
+<p>以下のサイトより、必要な画像をダウンロードし、<code>static</code>ディレクトリに配置しましょう。</p>
+<ul>
+<li><a href="https://www.irasutoya.com/2013/07/blog-post_5608.html" target="_blank">じゃんけんのイラスト「グー・チョキ・パー」|かわいいフリー素材集いらすとや</a></li>
+<li><a href="https://www.irasutoya.com/2014/01/blog-post_9764.html" target="_blank">バツのマークのイラスト「×」|かわいいフリー素材集いらすとや</a></li>
+</ul>
+<p>次に、CSSファイルを用意します。</p>
+<p>じゃんけんアプリは、こちらで用意したCSSを使ってもらいますが、通常は自分で書く必要があります。
+別途CSSでのレイアウト等の参考リンクを伝えますので、CSSによる装飾やレイアウトに興味のある方はそちらを参照しておいてください。</p>
+<p>以下のCSSファイルを<code>janken.css</code>という名前で<code>static</code>ディレクトリ以下に配置してください。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">padding</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">box-sizing</span>: <span class="dv">border-box</span><span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">*</span><span class="in">::before</span><span class="op">,</span> <span class="op">*</span><span class="in">::after</span> {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">box-sizing</span>: <span class="bu">inherit</span><span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="in">:root</span> {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-size</span>: <span class="dv">20</span><span class="dt">pt</span><span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-family</span>: -apple-system<span class="op">,</span> BlinkMacSystemFont<span class="op">,</span> <span class="st">&#39;Segoe UI&#39;</span><span class="op">,</span> Roboto<span class="op">,</span> Oxygen<span class="op">,</span> Ubuntu<span class="op">,</span> Cantarell<span class="op">,</span> <span class="st">&#39;Open Sans&#39;</span><span class="op">,</span> <span class="st">&#39;Helvetica Neue&#39;</span><span class="op">,</span> <span class="dv">sans-serif</span><span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-feature-settings</span>: <span class="st">&quot;palt&quot;</span><span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>html {</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">min-height</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>body {</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">padding</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">box-sizing</span>: <span class="dv">border-box</span><span class="op">;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">width</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">height</span>: <span class="dv">100</span><span class="dt">vh</span><span class="op">;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="kw">display</span>: <span class="dv">grid</span><span class="op">;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">place-items</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="cn">#003973</span><span class="op">;</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">bottom</span><span class="op">,</span> <span class="cn">#003973</span><span class="op">,</span> <span class="cn">#e5e5be</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>input {</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font</span>: <span class="bu">inherit</span><span class="op">;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="fu">.name_input</span> {</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  <span class="kw">display</span>: <span class="dv">flex</span><span class="op">;</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="kw">align-items</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="fu">.name_input</span> input<span class="ex">[type</span><span class="op">=</span><span class="st">&quot;text&quot;</span><span class="ex">]</span> {</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>  <span class="kw">flex</span>: <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin</span>: <span class="dv">0</span> <span class="dv">0.5</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>label<span class="ex">[for</span><span class="op">=</span><span class="st">&quot;is_settai&quot;</span><span class="ex">]</span> {</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-size</span>: <span class="dv">0.6</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin</span>: <span class="dv">0</span> <span class="dv">0.25</span><span class="dt">em</span><span class="op">;</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>fieldset {</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin</span>: <span class="dv">1</span><span class="dt">rem</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>  <span class="kw">text-align</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  <span class="kw">border</span>: <span class="dv">none</span><span class="op">;</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>  <span class="kw">display</span>: <span class="dv">flex</span><span class="op">;</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>  <span class="kw">align-items</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>  <span class="kw">justify-content</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>input<span class="ex">[type</span><span class="op">=</span><span class="st">&quot;radio&quot;</span><span class="ex">]</span> <span class="op">+</span> label {</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>  <span class="kw">display</span>: <span class="dv">inline-block</span><span class="op">;</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>  <span class="kw">padding</span>: <span class="dv">20</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>  <span class="kw">width</span>: <span class="dv">200</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>  <span class="kw">border</span>: <span class="dv">5</span><span class="dt">px</span> <span class="dv">transparent</span> <span class="dv">solid</span><span class="op">;</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>input<span class="ex">[type</span><span class="op">=</span><span class="st">&quot;radio&quot;</span><span class="ex">]</span><span class="in">:checked</span> <span class="op">+</span> label {</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>  <span class="kw">border</span>: <span class="dv">5</span><span class="dt">px</span> <span class="cn">red</span> <span class="dv">solid</span><span class="op">;</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>button {</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font</span>: <span class="bu">inherit</span><span class="op">;</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>  <span class="kw">width</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>main {</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>  <span class="kw">position</span>: <span class="dv">relative</span><span class="op">;</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>  <span class="kw">overflow</span>: <span class="dv">hidden</span><span class="op">;</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>  <span class="kw">padding</span>: <span class="dv">5</span><span class="dt">rem</span> <span class="dv">2</span><span class="dt">rem</span> <span class="dv">2</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="cn">#fff</span><span class="op">;</span></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>  <span class="kw">border-radius</span>: <span class="dv">1</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>  <span class="kw">box-shadow</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.1</span><span class="fu">)</span> <span class="dv">0</span> <span class="dv">20</span><span class="dt">px</span> <span class="dv">60</span><span class="dt">px</span> <span class="dv">-10</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>h1 {</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>  <span class="kw">position</span>: <span class="dv">absolute</span><span class="op">;</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">top</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>  <span class="kw">left</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>  <span class="kw">width</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-size</span>: <span class="dv">2</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>  <span class="kw">letter-spacing</span>: <span class="dv">.07</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>  <span class="kw">text-align</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">#232323</span><span class="op">;</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>  <span class="kw">color</span>: <span class="cn">#fff</span><span class="op">;</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>section {</span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>  <span class="kw">display</span>: <span class="dv">flex</span><span class="op">;</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>  <span class="kw">justify-content</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>  <span class="kw">align-items</span>: flex-end<span class="op">;</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>figure {</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin</span>: <span class="dv">1</span><span class="dt">rem</span> <span class="dv">2</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>figure figcaption {</span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>  <span class="kw">text-align</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>main h2 {</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>  <span class="kw">text-align</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>ファイルの配置が完了したら、一度動作確認をしておきましょう。</p>
+<h2 id="7-じゃんけんのゲーム処理の実装とレスポンスデータの組み立て">7.
+じゃんけんのゲーム処理の実装とレスポンスデータの組み立て</h2>
+<p><code>main.py</code>の<code>janken_play()</code>関数の中身を考えます。</p>
+<p>今回は、<code>/janken/play</code>に対して、HTTPのPOST
+methodでデータが送信されます。</p>
+<p>以下のコードで<code>janken_play()</code>の中身を書き換えてください。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/janken/play&#39;</span>, methods<span class="op">=</span>[<span class="st">&quot;POST&quot;</span>])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> janken_play():</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># &lt;input type=&quot;text&quot; id=&quot;your_name&quot; name=&quot;name&quot;&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> request.form.get(<span class="st">&quot;name&quot;</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> name:</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        name <span class="op">=</span> <span class="st">&quot;名無しさん&quot;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># &lt;input type=&quot;radio&quot; id=&quot;hand_rock&quot; value=&quot;rock&quot; name=&quot;hand&quot;&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># &lt;input type=&quot;radio&quot; id=&quot;hand_scissor&quot; value=&quot;scissor&quot; name=&quot;hand&quot;&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># &lt;input type=&quot;radio&quot; id=&quot;hand_paper&quot; value=&quot;paper&quot; name=&quot;hand&quot;&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    hand <span class="op">=</span> request.form.get(<span class="st">&quot;hand&quot;</span>, <span class="va">None</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># リストの中からランダムに選ぶ</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    cpu <span class="op">=</span> random.choice([<span class="st">&quot;rock&quot;</span>, <span class="st">&quot;scissor&quot;</span>, <span class="st">&quot;paper&quot;</span>])</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># じゃんけん処理</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> hand <span class="op">==</span> cpu:</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        result_message <span class="op">=</span> <span class="st">&quot;あいこ&quot;</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> hand <span class="op">==</span> <span class="st">&quot;rock&quot;</span>:</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> cpu <span class="op">==</span> <span class="st">&quot;scissor&quot;</span>:</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>                result_message <span class="op">=</span> <span class="st">&quot;</span><span class="sc">{}</span><span class="st">の勝ち&quot;</span>.<span class="bu">format</span>(name)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>                result_message <span class="op">=</span> <span class="st">&quot;</span><span class="sc">{}</span><span class="st">の負け&quot;</span>.<span class="bu">format</span>(name)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> hand <span class="op">==</span> <span class="st">&quot;scissor&quot;</span>:</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> cpu <span class="op">==</span> <span class="st">&quot;paper&quot;</span>:</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>                result_message <span class="op">=</span> <span class="st">&quot;</span><span class="sc">{}</span><span class="st">の勝ち&quot;</span>.<span class="bu">format</span>(name)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>                result_message <span class="op">=</span> <span class="st">&quot;</span><span class="sc">{}</span><span class="st">の負け&quot;</span>.<span class="bu">format</span>(name)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> hand <span class="op">==</span> <span class="st">&quot;paper&quot;</span>:</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> cpu <span class="op">==</span> <span class="st">&quot;rock&quot;</span>:</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>                result_message <span class="op">=</span> <span class="st">&quot;</span><span class="sc">{}</span><span class="st">の勝ち&quot;</span>.<span class="bu">format</span>(name)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>                result_message <span class="op">=</span> <span class="st">&quot;</span><span class="sc">{}</span><span class="st">の負け&quot;</span>.<span class="bu">format</span>(name)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>            result_message <span class="op">=</span> <span class="st">&quot;後出しはダメです。&quot;</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 渡したいデータを先に定義しておいてもいいし、テンプレートを先に作っておいても良い</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(<span class="st">&#39;janken_play.html&#39;</span>,</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>                           result_message<span class="op">=</span>result_message,</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>                           name<span class="op">=</span>name,</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>                           hand<span class="op">=</span>hand,</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>                           cpu<span class="op">=</span>cpu)</span></code></pre></div>
+<p><code>templates</code>ディレクトリ以下に、<code>janken_play.html</code>を作成しましょう。</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;ja&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;title&gt;</span>じゃんけんゲーム - 結果<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;link</span> <span class="er">rel</span><span class="ot">=</span><span class="st">&quot;stylesheet&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken.css&#39;) }}&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;main&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;h1&gt;</span>ぽん！<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;section&gt;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;figure&gt;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        {% if hand == &quot;rock&quot; %}</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken_gu.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Rock&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        {% elif hand == &quot;scissor&quot; %}</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken_choki.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Scissor&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        {% elif hand == &quot;paper&quot; %}</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken_pa.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Paper&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        {% else %}</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;mark_batsu.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Batsu&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        {% endif %}</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;figcaption&gt;</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>          {{ name }}</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/figcaption&gt;</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;/figure&gt;</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;figure&gt;</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>        {% if cpu == &quot;rock&quot; %}</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken_gu.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Rock&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>        {% elif cpu == &quot;scissor&quot; %}</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken_choki.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Scissor&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>        {% elif cpu == &quot;paper&quot; %}</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;janken_pa.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Paper&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>        {% else %}</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;mark_batsu.png&#39;) }}&quot;</span> <span class="er">alt</span><span class="ot">=</span><span class="st">&quot;Batsu&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;150&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>        {% endif %}</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;figcaption&gt;</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>          CPU</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/figcaption&gt;</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;/figure&gt;</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/section&gt;</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;h2&gt;</span>{{ result_message }}<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;button</span> <span class="er">onclick</span><span class="ot">=</span><span class="st">&quot;javascript:window.history.back(-1);return false;&quot;</span><span class="kw">&gt;</span>戻る<span class="kw">&lt;/button&gt;</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/main&gt;</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<h2 id="8-完成">8. 完成</h2>
+<p>最後にきちんと動作確認をしましょう。</p>
+<p>また、このじゃんけんアプリは、そのまま第8回課題の基準プログラムになりますので、動作しない場合は講義時間内にサポートを受けてください。</p>
+</body>
+</html>

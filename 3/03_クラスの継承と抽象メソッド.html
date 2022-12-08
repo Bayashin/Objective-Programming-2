@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>03_クラスの継承と抽象メソッド</title>
+  <style type="text/css">
+*, *::before, *::after {
+box-sizing: border-box;
+}
+code{ white-space: pre-wrap; }
+span.smallcaps{ font-variant: small-caps; }
+span.underline{ text-decoration: underline; }
+div.column{ display: inline-block; vertical-align: top; width: 50%; }
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p, table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1, h2, h3, h4, h5, h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 { font-size: 2rem; margin: 2rem auto 1rem; text-align: center; }
+h2 { font-size: 1.75rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2); margin: 2rem 0 1rem; }
+h3 { font-size: 1.5rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2); margin: 2rem 0 1rem; }
+h4 { font-size: 1.25rem; margin: 2rem 0 1rem; }
+h5 { font-size: 1.2rem; margin: 2rem 0 1rem; }
+h6 { font-size: 1.1rem; margin: 2rem 0 1rem; }
+ul, ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li, ol li {
+padding-left: .5rem;
+}
+ul ul, ol ul,
+ul ol, ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+pre, code, var, samp, kbd, .mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 1rem;
+border-radius: 4px;
+}
+pre code, pre tt {
+background-color: transparent;
+border: none;
+}
+pre.sourceCode {
+overflow: auto !important;
+}
+img, iframe, figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+</style>
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #c4a000; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #000000; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #000000; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #000000; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<h1 id="クラス">クラス</h1>
+<p>公式ドキュメント</p>
+<ul>
+<li><p>class：<a href="https://docs.python.org/ja/3/tutorial/classes.html">https://docs.python.org/ja/3/tutorial/classes.html</a></p>
+<ul>
+<li>継承は，リンク先の<a href="https://docs.python.org/ja/3/tutorial/classes.html#inheritance">9.5
+継承</a>を参照</li>
+</ul></li>
+<li><p>抽象クラスと抽象メソッドのドキュメント：<a href="https://docs.python.org/ja/3/library/abc.html">https://docs.python.org/ja/3/library/abc.html</a></p></li>
+</ul>
+<h2 id="クラスの継承">クラスの継承</h2>
+<p>既存のクラスの変数やメソッドや引き継いだ子クラスを定義します．</p>
+<p>はじめに，<code>lecture03_hero.py</code>をmy_moduleフォルダの中に移動します（my_moduleフォルダは作成してください）</p>
+<p>次に，<code>lecture03_magician.py</code>をMoodleからダウンロードしてmy_moduleと同じ階層（lecture03_hero.pyの1つ上のフォルダ）に置きます．</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> my_module.lecture03_hero <span class="im">import</span> Hero</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 別ファイルからHeroクラスを読み込み</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># from A import Bの構文については，次の資料で詳細を解説</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Heroクラスを継承したMagicianクラスを宣言</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Magician(Hero): </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    __DEFAULT_MP <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># コンストラクタ</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 親クラスのコンストラクタをsuper().__init__()で呼び出すことができる</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 親クラスのprivate変数にアクセスする方法１としてDEFAULT_HPのゲッター関数を呼び出している</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name<span class="op">=</span><span class="va">None</span>, hp<span class="op">=</span>Hero.getDefaultHP(), mp<span class="op">=</span>__DEFAULT_MP):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(name, hp)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.mp <span class="op">=</span> mp</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 特殊な関数の宣言(上書き)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>):</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f&#39;&quot;名前&quot;: &quot;</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>name<span class="sc">}</span><span class="ss">&quot;, &quot;HP&quot;: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>hp <span class="op">+</span> <span class="va">self</span><span class="sc">.</span>buf_status[<span class="st">&quot;hp&quot;</span>]<span class="sc">}</span><span class="ss">, &quot;MP&quot;: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>mp<span class="sc">}</span><span class="ss">&#39;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 親クラスのprivate変数へのアクセス</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> printDefaultHP(<span class="va">self</span>):</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 親クラスのprivate変数にアクセスする方法2</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;親クラスのプライベート変数にアクセス: DEFAULT_HP=</span><span class="sc">{</span>Hero<span class="sc">.</span>_Hero__DEFAULT_HP<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    hero1 <span class="op">=</span> Hero(<span class="st">&#39;愛知太郎&#39;</span>) <span class="co"># Heroクラスのインスタンスを生成</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;hero1=</span><span class="sc">{</span><span class="bu">str</span>(hero1)<span class="sc">}</span><span class="ss">&#39;</span>) <span class="co"># 文字列に変換</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    hero2 <span class="op">=</span> Magician(name<span class="op">=</span><span class="st">&#39;愛知花子&#39;</span>, hp<span class="op">=</span><span class="dv">200</span>, mp<span class="op">=</span><span class="dv">200</span>) <span class="co"># 引数名を指定してコンストラクタを呼び出し</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;hero2=</span><span class="sc">{</span><span class="bu">str</span>(hero2)<span class="sc">}</span><span class="ss">&#39;</span>) <span class="co"># 文字列に変換</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">type</span>(hero1)) <span class="co"># &lt;class &#39;my_module.lecture03_hero.Hero&#39;&gt;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">type</span>(hero2)) <span class="co"># &lt;class &#39;__main__.Magician&#39;&gt;</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(hero1) <span class="kw">is</span> Hero:</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&#39;hero1はHero&#39;</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(hero2) <span class="kw">is</span> <span class="kw">not</span> Hero:</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&#39;hero2とはHeroではない&#39;</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(hero1, Hero):</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&#39;hero1はHeroクラスのインスタンス&#39;</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(hero2, Hero):</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&#39;hero2もHeroクラスのインスタンス&#39;</span>)</span></code></pre></div>
+<h2 id="実行結果">実行結果</h2>
+<pre><code>hero1=&quot;名前&quot;: &quot;愛知太郎&quot;, &quot;HP&quot;: 100
+hero2=&quot;名前&quot;: &quot;愛知花子&quot;, &quot;HP&quot;: 200, &quot;MP&quot;: 200
+親クラスのプライベート変数にアクセス: DEFAULT_HP=100
+&lt;class &#39;my_module.lecture03_hero.Hero&#39;&gt;
+&lt;class &#39;__main__.Magician&#39;&gt;
+hero1はHero
+hero2とはHeroではない
+hero1はHeroクラスのインスタンス
+hero2もHeroクラスのインスタンス
+愛知太郎は一時パーティー離脱
+愛知花子は一時パーティー離脱</code></pre>
+<h2 id="ポイント">ポイント</h2>
+<p>以下のチェック項目について該当箇所と実行結果を探してみよう</p>
+<ol type="1">
+<li><p>Heroクラスは別のファイルに宣言されているのでFrom A import
+Bの構文で使えるように呼び出す（詳細は次の資料にて）</p></li>
+<li><p>クラスの継承は<code>class Magician(Hero):</code>のように括弧内に親クラスの名前を書いて宣言する</p></li>
+<li><p>親クラスのメソッドと同じ名前のメソッドを宣言できる（名前空間が異なるので親クラスのメソッドが上書きされることはない）</p>
+<ul>
+<li><p>上書きされるわけではないが，小クラスのメソッドが呼び出されるようになる</p></li>
+<li><p>親クラスのメソッドは上書きされていないので，<code>super().__init__(name, hp)</code>のように呼び出すことができる</p></li>
+</ul></li>
+<li><p>親クラスで宣言された変数<code>name</code>や<code>hp</code>を参照できる</p>
+<ul>
+<li>この箇所を参照
+<code>return f&#39;&quot;名前&quot;: &quot;{self.name}&quot;, &quot;HP&quot;: {self.hp + self.buf_status[&quot;hp&quot;]}, &quot;MP&quot;: {self.mp}&#39;</code></li>
+</ul></li>
+<li><p>親クラスのプライベート変数やプライベート関数は基本アクセスできない</p>
+<ul>
+<li><p>アクセス方法１：GetterやSetterメソッドを宣言しておく(getDefaultHPメソッドがGetterに当たる)</p></li>
+<li><p>アクセス方法２：<code>Hero._Hero__DEFAULT_HP</code>のように特殊な変数名に置き換わっているだけなので読み書き可能</p></li>
+</ul></li>
+</ol>
+<h2 id="抽象メソッド">抽象メソッド</h2>
+<p>Javaのインターフェースに相当する抽象メソッドの宣言と利用方法について説明します．</p>
+<p>はじめに，Moodleよりダウンロードした<code>IMagicAttack.py</code>を<code>my_module</code>フォルダの中にコピーしてください．</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> abc</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lecture03_hero <span class="im">import</span> Hero</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> IMagicAttack(metaclass<span class="op">=</span>abc.ABCMeta):</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">@abc.abstractmethod</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> damage(<span class="va">self</span>, enemy : Hero) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">        魔法攻撃のダメージを敵に与える</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">        ダメージを与えた後にHPが0以下になったenemyを削除する</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">        ----------</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">        enemy : Hero</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">            ダメージを与えるHero</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">NotImplementedError</span>()</span></code></pre></div>
+<p>次に，<code>lecture03_magician2.py</code>をMoodleからダウンロードしてmy_moduleと同じ階層（lecture03_hero.pyとIMagicAttack.pyの1つ上のフォルダ）に置きます．</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> my_module.lecture03_hero <span class="im">import</span> Hero</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> my_module.IMagicAttack <span class="im">import</span> IMagicAttack</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Heroクラスを継承したMagicianクラスを宣言</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Magician2(Hero, IMagicAttack): </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    __DEFAULT_MP <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># コンストラクタ</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name<span class="op">=</span><span class="va">None</span>, hp<span class="op">=</span>Hero.getDefaultHP(), mp<span class="op">=</span>__DEFAULT_MP):</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(name, hp)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.mp <span class="op">=</span> mp</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 特殊な関数の宣言(上書き)</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>):</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f&#39;&quot;名前&quot;: &quot;</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>name<span class="sc">}</span><span class="ss">&quot;, &quot;HP&quot;: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>getHP()<span class="sc">}</span><span class="ss">, &quot;MP&quot;: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>mp<span class="sc">}</span><span class="ss">&#39;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    hero3 <span class="op">=</span> Magician2(name<span class="op">=</span><span class="st">&#39;愛知さぶろう&#39;</span>, hp<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    hero3.damage(hero3) <span class="co"># 実装したのでエラーではなくhpが減り離脱する</span></span></code></pre></div>
+<p>この時点で実行すると，以下のように<code>NotImplementedError</code>未実装エラーが出る</p>
+<pre><code>Traceback (most recent call last):
+  File &quot;/Users/take/Nextcloud/Documents/2022/愛知工業大学/2KK-OOP/AU/講義資料/03-Python基礎/lecture03_magician2.py&quot;, line 28, in &lt;module&gt;
+    hero3.damage(hero3) # 実装したのでエラーではなくhpが減り離脱する
+  File &quot;/Users/take/Nextcloud/Documents/2022/愛知工業大学/2KK-OOP/AU/講義資料/03-Python基礎/my_module/lecture03_hero.py&quot;, line 85, in damage
+    raise NotImplementedError()
+NotImplementedError
+愛知さぶろうは一時パーティー離脱</code></pre>
+<p>エラーを解消する（プログラムを完成させる）ために，抽象メソッドを実装する（Magician2クラス内に宣言してください）</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 抽象クラスのメソッドを実装する</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> damage(<span class="va">self</span>, enemy: Hero) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>name<span class="sc">}</span><span class="ss">は</span><span class="sc">{</span>enemy<span class="sc">.</span>name<span class="sc">}</span><span class="ss">に100のダメージ&quot;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        enemy.hp <span class="op">-=</span> <span class="dv">100</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># bufを含めhpが0以下の場合は離脱させる</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(enemy.getHP() <span class="op">&lt;=</span> <span class="dv">0</span>):</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span>(enemy)</span></code></pre></div>
+<h2 id="実行結果-1">実行結果</h2>
+<p>抽象メソッドを実装すると以下の出力が得られる</p>
+<pre><code>愛知さぶろうは愛知さぶろうに100のダメージ
+愛知さぶろうは死亡のためパーティー離脱</code></pre>
+<h2 id="ポイント-1">ポイント</h2>
+<ul>
+<li><p>抽象メソッド(abc)を使うとJavaのインターフェースのように関数名だけを宣言しておいて，実装は継承したクラス内に任せることができる</p></li>
+<li><p>クラス宣言時に多重継承（複数の親クラスを持つこと）ができる（Javaではクラスの多重継承はできないがインターフェースの多重継承はできる）</p></li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>Pythonで別のファイルのクラスを親クラスとして小クラスを宣言する方法を説明した．</p>
+<p>別のファイルからクラスやメソッドを呼び出す方法についての詳細は次の講義資料で説明する．</p>
+<p>親クラスの変数(<code>self.name</code>)やメソッド(<code>super().__init__()</code>)にアクセスできることを示した</p>
+<p>親クラスのprivate変数(<code>__DEFAULT_HP</code>)にもアクセスできることを示した</p>
+<p>Pythonで抽象クラスと抽象メソッドを利用する方法を説明した．</p>
+<p>複数人での開発では，実装してほしい機能名だけを決めて，実装は他の人に任せることもありうる</p>
+<p>決めた内容を共有（指示する，指示される）できるように理解を深めてほしい</p>
+</body>
+</html>

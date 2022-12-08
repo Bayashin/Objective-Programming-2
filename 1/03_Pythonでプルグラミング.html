@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>03_Pythonでプログラミング</title>
+  <style type="text/css">
+*, *::before, *::after {
+box-sizing: border-box;
+}
+code{ white-space: pre-wrap; }
+span.smallcaps{ font-variant: small-caps; }
+span.underline{ text-decoration: underline; }
+div.column{ display: inline-block; vertical-align: top; width: 50%; }
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p, table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1, h2, h3, h4, h5, h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 { font-size: 2rem; margin: 2rem auto 1rem; text-align: center; }
+h2 { font-size: 1.75rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2); margin: 2rem 0 1rem; }
+h3 { font-size: 1.5rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2); margin: 2rem 0 1rem; }
+h4 { font-size: 1.25rem; margin: 2rem 0 1rem; }
+h5 { font-size: 1.2rem; margin: 2rem 0 1rem; }
+h6 { font-size: 1.1rem; margin: 2rem 0 1rem; }
+ul, ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li, ol li {
+padding-left: .5rem;
+}
+ul ul, ol ul,
+ul ol, ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+pre, code, var, samp, kbd, .mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 1rem;
+border-radius: 4px;
+}
+pre code, pre tt {
+background-color: transparent;
+border: none;
+}
+pre.sourceCode {
+overflow: auto !important;
+}
+img, iframe, figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+</style>
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #c4a000; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #000000; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #000000; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #000000; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<h1 id="pythonでプログラミング">Pythonでプログラミング</h1>
+<h2 id="まえおき">まえおき</h2>
+<p>後期の講義ではプログラム言語にPythonを利用する．
+ここでは，Pythonを利用した基本的なプログラミングについて解説する．</p>
+<p>講義では後半のグループワークに向けて特に重要な文法やアプリの雛形を演習形式で学習するが，Pythonやライブラリの全てを伝えることは出来ない．
+そのため，適宜参考サイトを示しながら学習を進める．</p>
+<ul>
+<li>Python3の文法の基本：<a href="https://docs.python.org/ja/3/tutorial/index.html">https://docs.python.org/ja/3/tutorial/index.html</a></li>
+</ul>
+<p>Pythonはスクリプト型プログラム言語の1種で，豊富なライブラリを組み合わせてアプリケーションやそのプロトタイプ制作に広く利用されている．
+Javaと同様にオブジェクト指向型の言語の特徴（クラス・継承・抽象クラス）を持っている．</p>
+<p>スクリプト型言語の特徴</p>
+<ul>
+<li><p>プロトタイプ作成などアプリやアルゴリズムの動作確認に向いている．（処理速度を求めるとJavaにはかなわないが開発速度はPythonが上．）</p></li>
+<li><p>Pythonの対話的処理はまさにスクリプト型プログラム言語を代表する特徴の１つ．(Javaではコンパイルエラーが出ないようにプログラムを全文書く必要があったが，Pythonでは部分ごとに実行を確認できる．）</p></li>
+<li><p>つまり，Pythonのプログラム実行には，従来のプログラムファイルを読み込ませて実行する方法と1命令づつ実行して結果を見る対話処理（インタプリタ）の方法の2通りがある．</p></li>
+</ul>
+<h2 id="pythonのインタプリタ起動">Pythonのインタプリタ起動</h2>
+<p>講義フォルダへ移動して端末で<code>python</code>と入力してエンターキーを押す．</p>
+<p>行の先頭が<code>&gt;&gt;&gt;</code>に変わればPythonのプログラムを入力可能です．</p>
+<p>次に示すプログラムを1行ずつ入力して実行してみましょう．（Pythonが初めての人は特にコピーせずキーボードで入力することをお勧めします．）</p>
+<h2 id="hello-world">Hello World</h2>
+<p>はじめに，文字列を出力する方法</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># プログラム1</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="st">&#39;Hello World&#39;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(s)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(s))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">21</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">&#39;太郎&#39;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="fl">65.43</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># print関数で変数をターミナルに出力</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(name, <span class="st">&#39;の年齢は&#39;</span>, y, <span class="st">&#39;歳で体重は&#39;</span>, w, <span class="st">&#39;kgです&#39;</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 太郎 の年齢は 21 歳で体重は 65.43 kgです</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># C言語でおなじみのフォーマット指定子で出力も可能</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;</span><span class="sc">%s</span><span class="st">の年齢は</span><span class="sc">%d</span><span class="st">歳で体重は</span><span class="sc">%.2f</span><span class="st">kgです&#39;</span> <span class="op">%</span> (name, y, w))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 太郎の年齢は21歳で体重は65.43kgです</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># f文字列python3.6以降</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">の年齢は</span><span class="sc">{</span>y<span class="sc">}</span><span class="ss">歳で体重は</span><span class="sc">{</span>w<span class="sc">:.2f}</span><span class="ss">kgです&#39;</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 太郎の年齢は21歳で体重は65.43kgです</span></span></code></pre></div>
+<p>解説1-1: 変数（オブジェクト）の型</p>
+<ul>
+<li>Pythonでは変数の型は代入する値で決まる．変数（オブジェクト）の型を見たい時は<strong>typeコマンド</strong>を利用する「「「忘れたら開発できないので，これは覚えてください」」」</li>
+</ul>
+<p>解説1-2: メイン関数はどこ？</p>
+<ul>
+<li>Pythonのインタープリタでは，上から順番に処理されるのでメイン関数が無くても実行されます．（明示的にメイン関数を書くこともできるので，それは後術．）</li>
+</ul>
+<p>解説1-3: 文字の出力</p>
+<ul>
+<li><p>print関数の括弧内では，カンマで区切って変数や文字を並べることができます．（カンマで区切ると半角スペースが入ります）</p></li>
+<li><p>文字列にフォーマット指定子（%s, %d,
+%fなど）を埋め込み，%演算子に続く変数の値を代入することができます．</p></li>
+<li><p>Python3.6からは<code>ｆ文字列</code>と呼ばれる方法が使え，変数名を直接文字列の中に埋め込むことができます．（メンテナンス性が高いのでおすすめです）</p></li>
+<li><p>Pythonのようなスクリプト型言語ではインタラクション処理（インタープリタで１行づつ実行結果を確認）をすることができ，インタラクション処理中には変数名を入力するだけ変数の内容が表示されるので，プログラム開発・デバッグがより簡単にできる．一方で，先の講義で示す，ファイルに書かれたプログラムを実行する場合，標準出力やファイルに書き出す処理を利用すして処理結果を出力ことになる．標準出力やファイル入出力については先の講義で解説する．</p></li>
+</ul>
+<h2 id="リスト型とタプル型">リスト型とタプル型</h2>
+<p>Pythonでよく使う配列はリスト型とタプル型がある</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># プログラム2</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">7</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;a= &#39;</span>, a)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;t= &#39;</span>, t)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(a))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;class &#39;list&#39;&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(t))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;class &#39;tuple&#39;&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">sum</span>(a)) <span class="co"># sumはpython標準モジュール-&gt;Docへ</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">min</span>(a)) <span class="co"># minはpython標準モジュール-&gt;Docへ</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">max</span>(a)) <span class="co"># maxはpython標準モジュール-&gt;Docへ</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">sorted</span>(a)) <span class="co"># sortedはpython標準モジュール-&gt;Docへ</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a[<span class="dv">0</span>]) <span class="co"># Listの要素にアクセス</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(t[<span class="dv">0</span>]) <span class="co"># Tupleの要素にアクセス</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>a[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">100</span> <span class="co"># Listの要素には代入可能</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> a <span class="op">+</span> [<span class="dv">111</span>] <span class="co"># Listには要素を追加可能</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;=&#39;</span>, <span class="st">&#39; &#39;</span>, a)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>t[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">100</span> <span class="co"># Tupleの要素は書き換え不可</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> t <span class="op">+</span> [<span class="dv">222</span>] <span class="co"># Tupleには要素を追加できない</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> t <span class="op">+</span> (<span class="dv">222</span>) <span class="co"># Tupleには要素を追加できない</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="bu">list</span>(t) <span class="op">+</span> [<span class="dv">222</span>] <span class="co"># TupleをListに変換すれば要素の追加が可能</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(l)</span></code></pre></div>
+<p>解説2-1: 配列を扱うにはListとTupleの2種類がある</p>
+<ul>
+<li><p>内容の書き換えと要素の追加削除が可能なListと内容を書き換えられないTupleが存在する</p></li>
+<li><p>C言語の配列と異なるのは，ListやTupleには同じ型のオブジェクトを入れなければならないというルールがない</p>
+<ul>
+<li><p>Listには基本的に同じ型のオブジェクトを入れることが多い（異なる型でも良い）</p></li>
+<li><p>Tupleには基本的に同じ型のオブジェクトが入るとは限らない（同じ型でも良い）</p></li>
+</ul></li>
+<li><p>関数の戻り値や外部のライブラリから返されたオブジェクトはタプルである可能性があるので，変数の型をチェックすることを常に忘れずに</p></li>
+<li><p>半角シャープ以降はコメント文として無視される（複数行コメントアウトしたい場合は<em>&quot;&quot;&quot;</em>
+から <em>&quot;&quot;&quot;</em> の間がコメントアウトされる）</p></li>
+</ul>
+<h2 id="辞書型">辞書型</h2>
+<p>Pythonでは辞書（Dictionay）型を使える</p>
+<ul>
+<li><p>JavaでいうMapのこと</p></li>
+<li><p>JSON形式と同様に入れ子にできるが，入れ子構造の一番外枠は配列ではなく辞書型になる（JSONは一番外の枠が配列でもOK）</p></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># プログラム3</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> {} <span class="co"># hに空の辞書型オブジェクトを代入</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>h[<span class="st">&#39;ID&#39;</span>] <span class="op">=</span> <span class="st">&#39;k19999kk&#39;</span><span class="co"># 辞書型に値を保存するには配列のインデクスの代わりにキーを指定する</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>h[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;勇者&#39;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>h[<span class="st">&#39;HP&#39;</span>] <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>h[<span class="st">&#39;MP&#39;</span>] <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>h[<span class="st">&#39;Atc&#39;</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>h[<span class="st">&#39;Def&#39;</span>] <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>h[<span class="st">&#39;Age&#39;</span>] <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>h[<span class="st">&#39;武器&#39;</span>] <span class="op">=</span> {<span class="st">&#39;名前&#39;</span>: <span class="st">&#39;棍棒&#39;</span>, <span class="st">&#39;HP補正&#39;</span>: <span class="dv">10</span>, <span class="st">&#39;MP補正&#39;</span>: <span class="dv">0</span>, <span class="st">&#39;Act補正&#39;</span>: <span class="dv">20</span>, <span class="st">&#39;Def補正&#39;</span>: <span class="dv">0</span>, <span class="st">&#39;Age補正&#39;</span>: <span class="op">-</span><span class="dv">3</span>}</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(h)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(h[<span class="st">&#39;ID&#39;</span>]) <span class="co"># 辞書型の値にアクセスする時はキーを指定する</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(h[<span class="st">&#39;HP&#39;</span>])</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(h[<span class="st">&#39;武器&#39;</span>])</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(h.keys()) <span class="co"># キーがわからない時はkeys()メソッドでキー一覧を取得できる</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="st">&#39;武器&#39;</span> <span class="kw">in</span> h.keys()):</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(h[<span class="st">&#39;武器&#39;</span>].keys()) <span class="co"># 武器のキーが存在する場合実行される</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ↑インタープリタで実行する時は空行でエンターキーを入力するとブロックを実行してくれる</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> h.keys():</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(x) <span class="co"># キー一覧を出力</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co"># ↑インタープリタで実行する時は空行でエンターキーを入力するとブロックを実行してくれる</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(h))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;class &#39;dict&#39;&gt;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.9で追加された文法</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co"># |演算子は辞書型同士をマージ（足し算）する</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>marged <span class="op">=</span> {<span class="st">&#39;dog&#39;</span>: <span class="st">&#39;わん&#39;</span>, <span class="st">&#39;caw&#39;</span>: <span class="st">&#39;xxxx&#39;</span>} <span class="op">|</span> {<span class="st">&#39;cat&#39;</span>: <span class="st">&#39;にゃー&#39;</span>, <span class="st">&#39;caw&#39;</span>: <span class="st">&#39;モー&#39;</span>}</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(marged)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co"># {&#39;dog&#39;: &#39;わん&#39;, &#39;caw&#39;: &#39;モー&#39;, &#39;cat&#39;: &#39;にゃー&#39;}</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co"># |=演算子は配列やタプルの前方をキー，次を値として辞書型にマージできる</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>marged <span class="op">|=</span> [(<span class="st">&#39;dog&#39;</span>, <span class="st">&#39;bowwow&#39;</span>),(<span class="st">&#39;cat&#39;</span>, <span class="st">&#39;meow&#39;</span>)]</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(marged)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co"># {&#39;dog&#39;: &#39;bowwow&#39;, &#39;caw&#39;: &#39;モー&#39;, &#39;cat&#39;: &#39;meow&#39;}</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># おまけ</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 辞書型からタプルのリストへ1</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>marged.items()</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co">#dict_items([(&#39;dog&#39;, &#39;bowwow&#39;), (&#39;caw&#39;, &#39;モー&#39;), (&#39;cat&#39;, &#39;meow&#39;)])</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co"># 辞書型からタプルのリストへ2</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="bu">zip</span>(marged.keys(), marged.values())</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;zip object at 0x10dba2f80&gt;</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(<span class="bu">zip</span>(marged.keys(), marged.values())))</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co"># [(&#39;dog&#39;, &#39;bowwow&#39;), (&#39;caw&#39;, &#39;モー&#39;), (&#39;cat&#39;, &#39;meow&#39;)]</span></span></code></pre></div>
+<p>解説3-1: 辞書型</p>
+<ul>
+<li><p>連想配列（辞書型）を利用することができる．辞書型はキーに対応する値を保存するデータ構造．</p></li>
+<li><p>キーには文字列を指定する．（数値も指定可能<code>a = {0: &#39;abc&#39;}</code>なので<code>a[0]</code>と書くとまさに配列の要素へアクセスしているように見える）</p></li>
+<li><p>配列（リスト）ではインデックスで要素にアクセスするのにたいして，辞書型ではキーでアクセスする．</p></li>
+<li><p>キーの一覧は<code>keys()</code>関数で取得できる．</p></li>
+<li><p>キーに対応する値の一覧は<code>values()</code>関数で取得できる．</p></li>
+<li><p>辞書型からリスト型へ，リスト型から辞書型へ変換できるデータ構造が存在する．（配列の各要素に空でない2要素配列が入る）</p></li>
+</ul>
+<h2 id="関数の宣言と呼び出し">関数の宣言と呼び出し</h2>
+<p>Pythonの関数は以下のように宣言し呼び出す.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 関数の定義</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simple_func():</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Here is simple_func&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>simple_func() <span class="co"># 関数の呼び出し</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_with_args(i, j, k<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;i=</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">, j=</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">, k=</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>func_with_args(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">100</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>func_with_args(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_with_return():</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> {}</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    h[<span class="st">&#39;id&#39;</span>] <span class="op">=</span> <span class="st">&#39;12345&#39;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    h[<span class="st">&#39;score&#39;</span>] <span class="op">=</span> {}</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    h[<span class="st">&#39;score&#39;</span>][<span class="st">&#39;国語&#39;</span>] <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    h[<span class="st">&#39;score&#39;</span>][<span class="st">&#39;数学&#39;</span>] <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    h[<span class="st">&#39;score&#39;</span>][<span class="st">&#39;理科&#39;</span>] <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    h[<span class="st">&#39;score&#39;</span>][<span class="st">&#39;社会&#39;</span>] <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    h[<span class="st">&#39;score&#39;</span>][<span class="st">&#39;英語&#39;</span>] <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h <span class="co"># 処理結果を辞書型にまとめて返す</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(func_with_return)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(func_with_return))</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_returen_multiple_values(v1, v2):</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    goukei<span class="op">=</span><span class="dv">0</span> <span class="co"># 関数の定義の中はスペース4つでインデント</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> e <span class="kw">in</span> v1<span class="op">+</span>v2:</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        goukei<span class="op">=</span>goukei<span class="op">+</span>e</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> goukei, <span class="bu">min</span>(v1<span class="op">+</span>v2) <span class="co"># この行のあとエンターキーをもう一度押してくください</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># defブロックの前後は2行空けるのが一般的</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">2</span>]</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> [<span class="dv">3</span>,<span class="dv">4</span>]</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> func_return_multiple_values(a,b) <span class="co"># ２つの返り値を1つの変数resultsに代入</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;2つの配列の値の合計は</span><span class="sc">{</span>results[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">，最小値は</span><span class="sc">{</span>results[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 配列の値の合計は10，最小値は1</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>goukei_value, min_value <span class="op">=</span> func_return_multiple_values(a,b) <span class="co"># 返り値をそれぞれの変数に代入</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;2つの配列の値の合計は</span><span class="sc">{</span>goukei_value<span class="sc">}</span><span class="ss">，最小値は</span><span class="sc">{</span>min_value<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 配列の値の合計は10，最小値は1</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(results))</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co"># ↑変数の型を確かめよう</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(analyze_values(a,b)))</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co"># ↑関数の返り値の型を確かめよう</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co">コメント文はダブルクォート３つの間にも書ける</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">関数宣言時に引数や返り値の型ヒントを記述することができる（が，あくまでもヒントであって完全ではないので目安程度）</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">メリット：VS Codeなど開発環境が変数の型を参照して，オブジェクトのアクセスできるフィールドや関数を補完してくれる</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">デメリット：入力文字数が増える</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co"># 変数の後ろにコロン＋型を書くとヒントになる</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_capitalize(s: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s.capitalize() <span class="co"># s.まで入力するとcapitalize()が補完候補に出てくる</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co"># 変数の宣言でも型ヒントを書ける</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>s: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;tarou&quot;</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(make_capitalize(s)) <span class="co"># print関数の中にmake_capitalize()まで書くと`(s: str) -&gt; str`とヒントが表示される</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Tarou</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co"># ヒントの例２（listとtuple）</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_returen_multiple_values(v1: <span class="bu">list</span>[<span class="bu">int</span>], v2: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">int</span>,<span class="bu">int</span>]:</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    goukei<span class="op">=</span><span class="dv">0</span> <span class="co"># 関数の定義の中はスペース4つでインデント</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> e <span class="kw">in</span> v1<span class="op">+</span>v2:</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>        goukei<span class="op">=</span>goukei<span class="op">+</span>e</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> goukei, <span class="bu">min</span>(v1<span class="op">+</span>v2) <span class="co"># この行のあとエンターキーをもう一度押してくください</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(func_return_multiple_values([<span class="dv">1</span>,<span class="dv">2</span>],[<span class="dv">3</span>,<span class="dv">4</span>])) <span class="co"># 入力中に`(v1: list[int], v2: list[int]) -&gt; tuple[int, int]`のようなヒントが表示される</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="co"># ↑補足：list型の場合かつ要素の型が１種類の場合は要素の型もヒントにかける</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="co"># ↑補足：tuple型の場合かつ要素の数と型が決まっている場合は要素の数だけ型をヒントにかける</span></span></code></pre></div>
+<h2 id="関数内のローカル変数および副作用について">関数内のローカル変数および副作用について</h2>
+<p>同じ機能を持つ関数を数通りの方法で書いてみる</p>
+<p>書き方によってはエラーが出たり副作用（意図しない変数が書き換わる）が起こることを確認する</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 引数aとbを受け取り合計値を返す関数を宣言(例の中で最もシンプル)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_sum(a: <span class="bu">list</span>[<span class="bu">int</span>], b: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(a<span class="op">+</span>b)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># よく使われる変数名を関数の外で使ってみる（関数内でjやkを使っても問題ないがこの変数を指しているわけではない）</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>j <span class="op">=</span> [<span class="dv">5</span>,<span class="dv">10</span>]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> [<span class="dv">20</span>,<span class="dv">30</span>]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 出力結果確認</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;２つのリスト</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">と</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">の合計値は</span><span class="sc">{</span>my_sum(j,k)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2つのリスト[5,10]と[20,30]の合計は65</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 引数aとbを受け取り合計値を返す関数を宣言（変更1）</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_sum1(a: <span class="bu">list</span>[<span class="bu">int</span>], b:<span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 一見sum関数を上書きしているように見えるが，関数のブロック内なので外部では問題なくsum()は使える</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># しかし，ビルトイン関数と同じ名前の変数や関数を宣言することはおすすめしない（ここではエラーになる）</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">=</span> <span class="bu">sum</span>(a<span class="op">+</span>b)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 出力結果確認</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;２つのリスト</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">と</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">の合計値は</span><span class="sc">{</span>my_sum1(j,k)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># sum関数を宣言しようとしているのにその中でsum関数を使っているのでエラーになっている</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">Traceback (most recent call last):</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">  File &quot;&lt;stdin&gt;&quot;, line 4, in my_sum1</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">UnboundLocalError: local variable &#39;sum&#39; referenced before assignment</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 引数aとbを受け取り合計値を返す関数を宣言（変更2）</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_sum2(a: <span class="bu">list</span>[<span class="bu">int</span>], b: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    a[<span class="dv">0</span>] <span class="op">=</span> a[<span class="dv">0</span>] <span class="op">+</span> b[<span class="dv">0</span>] <span class="co"># リスト型の変数aはjの参照渡しなので書き換えてしまうと関数内スコープでも値が変わる</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    a[<span class="dv">1</span>] <span class="op">=</span> a[<span class="dv">1</span>] <span class="op">+</span> b[<span class="dv">1</span>] <span class="co"># リスト型の変数aはkの参照渡しなので書き換えてしまうと関数内スコープでも値が変わる</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(a) <span class="co"># [25,40]が出力される</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(a)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 出力結果確認</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;２つのリスト</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">と</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">の合計値は</span><span class="sc">{</span>my_sum2(j,k)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 2つのリスト[5,10]と[20,30]の合計は65</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 副作用を確認</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;関数sum実行後のj=</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">, k=</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="co"># 関数my_sum2実行後のj=[25,40], k=[20,30]</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="co"># jの値が変わってしまっている</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="co"># jとkを元の値に戻す</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>j <span class="op">=</span> [<span class="dv">5</span>,<span class="dv">10</span>]</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> [<span class="dv">20</span>,<span class="dv">30</span>]</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="co"># 引数aとbを受け取り合計値を返す関数を宣言（変更3）</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_sum3(a: <span class="bu">list</span>[<span class="bu">int</span>], b: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> a <span class="op">+</span> b <span class="co"># aは上書きされない（なぜならaとbを足した新しいオブジェクトがメモリ上に生成されるから）</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(a)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="co"># 出力結果確認</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;２つのリスト</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">と</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">の合計値は</span><span class="sc">{</span>my_sum3(j,k)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="co"># 2つのリスト[5,10]と[20,30]の合計は65</span></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="co"># 副作用を確認</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;関数my_sum3実行後のj=</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">, k=</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="co"># 関数my_sum3実行後のj=[5,40], k=[20,30]</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a><span class="co"># jとkの値の変化なし</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="co"># 引数aとbを受け取り合計値を返す関数を宣言（変更4）</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_sum4(a: <span class="bu">list</span>[<span class="bu">int</span>], b: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> a <span class="op">+</span> b <span class="co"># jはローカル変数なので関数外のjを上書きしない</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="bu">sum</span>(j) <span class="co"># kはローカル変数なので関数外のkを上書きしない</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    j[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">100</span> <span class="co"># j[0]はa[0]とは別のメモリを指し示しているので書き換えてもa(関数外のj)は書き換わらない</span></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> k</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="co"># 出力結果確認</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;２つのリスト</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">と</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">の合計値は</span><span class="sc">{</span>my_sum4(j,k)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a><span class="co"># 2つのリスト[5,10]と[20,30]の合計は65</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="co"># 副作用を確認</span></span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;関数my_sum4実行後のj=</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">, k=</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="co"># 関数my_sum4実行後のj=[5,40], k=[20,30]</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="co"># jとkの値の変化なし</span></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="co"># 引数aとbを受け取り合計値を返す関数を宣言（変更5-1）</span></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_sum5_1(a: <span class="bu">list</span>[<span class="bu">int</span>], b: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(j) <span class="co"># ローカル変数として宣言しない限り，関数外で宣言されたオブジェクトを参照可能</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(k) <span class="co"># ローカル変数として宣言しない限り，関数外で宣言されたオブジェクトを参照可能</span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>    <span class="co"># j = a + b # もし，ローカル変数として宣言するとエラーになる（この行の＃を外してみてください）</span></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(j<span class="op">+</span>k)</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="co"># 出力結果確認</span></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;２つのリスト</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">と</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">の合計値は</span><span class="sc">{</span>my_sum5_1(j,k)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a><span class="co"># 2つのリスト[5,10]と[20,30]の合計は65</span></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a><span class="co"># 引数aとbを受け取り合計値を返す関数を宣言（変更5-2）</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_sum5_2(a: <span class="bu">list</span>[<span class="bu">int</span>], b: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(j) <span class="co"># 参照可能だが，引数を定義している意味がわからなくなる</span></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(k) <span class="co"># 参照可能だが，引数を定義している意味がわからなくなる</span></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> a <span class="op">+</span> b <span class="co"># もし，ローカル変数として宣言するとエラーになる（この行の＃を外してみてください）</span></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(j<span class="op">+</span>k)</span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="co"># 出力結果確認</span></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;２つのリスト</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">と</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">の合計値は</span><span class="sc">{</span>my_sum5_2(j,k)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a><span class="co">Traceback (most recent call last):</span></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a><span class="co">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span></span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a><span class="co">  File &quot;&lt;stdin&gt;&quot;, line 2, in my_sum5</span></span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="co">UnboundLocalError: local variable &#39;j&#39; referenced before assignment</span></span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span></code></pre></div>
+<p>解説4-1: 関数</p>
+<ul>
+<li><p>Pythonでも関数やクラスを宣言することができる(この例は関数の宣言)．</p></li>
+<li><p>関数の引数は複数とれるし，関数の返り値も複数書ける．（さて，関数の返り値の型はなんでしょうか？）</p></li>
+<li><p>関数の引数や返り値にも型は書かない．数字が入力されることを前提に作られたanalyze_values関数に文字列を送ることもできるが，動作は保証しない．</p></li>
+<li><p>f文字列の中括弧<code>{}</code>には変数名だけでなく関数も書ける</p></li>
+<li><p>Pythonでは，関数やクラスそしてfor文やif文などのブロックはインデントで表現される．ブロックを表現するインデントはいろいろな流儀が存在するが，この講義では半角スペース４つにする．</p></li>
+<li><p><code>def</code>, <code>for</code>, <code>if</code>
+の括弧をJavaと違って書かないので，Javaでインデントバラバラに書いてた人，Pythonでは動きませんので注意しましょう．</p></li>
+<li><p>関数の引数や返り値の型をある程度指定する方法があるので，意図しない関数の使い方をしない・されないために必要な場合は型を書いておくのがよい．（2つの要素を返すときは<code>calc(a)-&gt;(int, int)</code>）</p></li>
+<li><p>型ヒントはpythonのバージョンごとに書き方が変わっていくのでこれ以上はフォローしない．必要に応じて勉強してください<a href="https://docs.python.org/ja/3/library/typing.html">公式ドキュメント
+typing</a></p></li>
+<li><p>関数内で宣言されたローカル変数は，同じ変数名でも関数外の変数と区別される．</p></li>
+<li><p>関数外の変数も参照・書き換えができるが，普通はしない．意図的に関数の引数外の変数を書き換えるときは，書き換えの影響を最小限に留めるために，その変数をclass内変数として宣言しカプセル化する．（classは次回以降の講義で説明する）</p>
+<ul>
+<li><p>classを使えば，同じ名前の関数も区別することができる．</p></li>
+<li><p>同じ名前の変数や関数を作る利点としては，複数のゲームでキャラクターやゲーム内通貨を共有している時に，ゲームごとにキャラ選択関数やゲーム内通貨の変数名を変える必要はなく，むしろ１つの名前に統一できること，が挙げられる．（例：「ゲームAのcoin」と「ゲームBのcoin」は同じ名前だけど別オブジェクト）</p></li>
+</ul></li>
+</ul>
+<h2 id="python３10で使える関数">Python３．10で使える関数</h2>
+<p><a href="https://docs.python.org/3.10/library/functions.html">Python3.10
+ビルトイン関数</a></p>
+<ul>
+<li><p>数値計算でよく使う関数：max, min, sum, abs</p>
+<ul>
+<li>利用例</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">max</span>(a))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 5</span></span></code></pre></div>
+<ul>
+<li><p>論理演算でよく使う関数の例：all, any, filter, sorted,
+enumerate</p>
+<ul>
+<li>利用例</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">8</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ans <span class="op">=</span> <span class="bu">sorted</span>(a)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ans)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [1, 3, 5, 8]</span></span></code></pre></div>
+</body>
+</html>

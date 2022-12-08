@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  *::before, *::after {
+    box-sizing: inherit;
+  }
+  :root {
+    font-size: 20pt;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-feature-settings: "palt";
+  }
+  
+  html {
+    min-height: 100%;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #003973;
+    background: linear-gradient(to bottom, #003973, #e5e5be);
+  }
+  
+  input {
+    font: inherit;
+  }
+  
+  .name_input {
+    display: flex;
+    align-items: center;
+  }
+  .name_input input[type="text"] {
+    flex: 1;
+    margin: 0 0.5rem;
+  }
+  
+  label[for="is_settai"] {
+    font-size: 0.6rem;
+    margin: 0 0.25em;
+  }
+  
+  fieldset {
+    margin: 1rem 0;
+    text-align: center;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  input[type="radio"] + label {
+    display: inline-block;
+    padding: 20px;
+    width: 200px;
+    border: 5px transparent solid;
+  }
+  
+  input[type="radio"]:checked + label {
+    border: 5px red solid;
+  }
+  
+  button {
+    font: inherit;
+    width: 100%;
+  }
+  
+  main {
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 2rem 2rem;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 20px 60px -10px;
+  }
+  
+  h1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-size: 2rem;
+    letter-spacing: .07rem;
+    text-align: center;
+    background-color: #232323;
+    color: #fff;
+  }
+  
+  section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  figure {
+    margin: 1rem 2rem;
+  }
+  
+  figure figcaption {
+    text-align: center;
+  }
+  
+  main h2 {
+    text-align: center;
+  }

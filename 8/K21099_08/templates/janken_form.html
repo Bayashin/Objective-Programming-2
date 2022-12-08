@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>じゃんけんゲーム</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='janken.css') }}">
+</head>
+<body>
+  <main>
+    <h1>じゃんけんゲーム</h1>
+    <form action="/janken/play" method="POST">
+      <p class="name_input">
+        <label for="your_name">名前: </label>
+        <input type="text" id="your_name" name="name">
+        <input type="checkbox" id="settai_mode" name="settai">
+        <label for="mode">接待モード </label>
+      </p>
+      <fieldset id="janken_hand">
+        <input type="radio" id="hand_rock" value="rock" name="hand">
+        <label for="hand_rock"><img src="{{ url_for('static', filename='janken_gu.png') }}" alt="Rock" width="150"></label>
+        <input type="radio" id="hand_scissor" value="scissor" name="hand">
+        <label for="hand_scissor"><img src="{{ url_for('static', filename='janken_choki.png') }}" alt="Scissor" width="150"></label>
+        <input type="radio" id="hand_paper" value="paper" name="hand">
+        <label for="hand_paper"><img src="{{ url_for('static', filename='janken_pa.png') }}" alt="Paper" width="150"></label>
+      </fieldset>
+      <button type="submit">じゃんけん</button>
+    </form>
+  </main>
+</body>
+</html>

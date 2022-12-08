@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book>
+  <article title="卒業論文">
+    <chapter id="1" name="はじめに" pages="2" />
+    <chapter id="2" name="基礎理論" pages="8" />
+    <chapter id="3" name="実験方法" pages="6" />
+    <chapter id="4" name="結果と考察" pages="2" />
+    <chapter id="5" name="まとめ" pages="1" />
+    <chapter id="6" name="参考文献" pages="2" />
+  </article>
+  <novel>
+    <chapter id="1" name="1日のはじまり" pages="2" />
+    <chapter id="2" name="朝食" pages="8" />
+    <chapter id="3" name="仕事" pages="6" />
+    <chapter id="4" name="帰宅後" pages="2" />
+    <chapter id="5" name="新しい朝" pages="1" />
+  </novel>
+</book>

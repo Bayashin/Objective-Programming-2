@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>クライアントサイドJavaScriptからのHTTPリクエスト</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #c4a000; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #000000; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #000000; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #000000; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+code {
+white-space: pre-wrap;
+}
+span.smallcaps {
+font-variant: small-caps;
+}
+span.underline {
+text-decoration: underline;
+}
+div.column {
+display: inline-block;
+vertical-align: top;
+width: 50%;
+}
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p,
+table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 {
+font-size: 2rem;
+margin: 2rem auto 1rem;
+text-align: center;
+}
+h2 {
+font-size: 1.75rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h3 {
+font-size: 1.5rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h4 {
+font-size: 1.25rem;
+margin: 2rem 0 1rem;
+}
+h5 {
+font-size: 1.2rem;
+margin: 2rem 0 1rem;
+}
+h6 {
+font-size: 1.1rem;
+margin: 2rem 0 1rem;
+}
+ul,
+ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li,
+ol li {
+padding-left: .5rem;
+}
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+width: 100% !important;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+img,
+iframe,
+figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+div.sourceCode {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+margin-top: 1rem;
+margin-bottom: 1rem;
+border-radius: 4px;
+padding: 1rem;
+}
+div.sourceCode pre,
+div.sourceCode code {
+background-color: transparent;
+margin: 0;
+}
+pre code,
+pre tt {
+background-color: transparent;
+border: none;
+}
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+margin: 0;
+padding: 0;
+vertical-align: top;
+border: none;
+}
+table.sourceCode pre {
+padding: 2px;
+margin: 0;
+border: none;
+color: inherit;
+}
+table.sourceCode code {
+color: inherit;
+}
+table.sourceCode {
+width: 100%;
+line-height: 100%;
+}
+td.lineNumbers {
+text-align: right;
+color: #aaaaaa;
+border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">クライアントサイドJavaScriptからのHTTPリクエスト</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習2 参考資料</p>
+</blockquote>
+<h2 id="ajax">AJAX</h2>
+<p>Asynchronous JavaScript + XMLの略です。
+JavaScriptのHTTPアクセスのためのAPIを使用してHTTPのネゴシエーションを行い、動的にWebページを生成する仕組みのことをいいます。</p>
+<h3 id="テキストファイルのデータ構造">テキストファイルのデータ構造</h3>
+<p>HTTPは、基本的にテキストデータをやり取りするプロトコルです。
+そのため、サーバーから取得されるデータはHTMLなどのようにテキストデータで表現されます。</p>
+<p>プログラムから取得されたテキストデータを扱うには、データ構造を意識した形式で表現されることが望ましいです。</p>
+<h4 id="xml形式-extensible-markup-language">XML形式 (eXtensible Markup
+Language)</h4>
+<p>XML形式は、データに意味付けを行うと同時にデータのネストを可能とするテキスト形式です。</p>
+<p>仮に、名前とHPと攻撃力と武器（名前と攻撃力加算率）を持つ勇者のデータをXML形式で表すと以下のようになります。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">hero</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">name</span>&gt;たろう&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">hp</span>&gt;100&lt;/<span class="kw">hp</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">atk</span>&gt;50&lt;/<span class="kw">atk</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">weapon</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">name</span>&gt;きのぼう&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">atkrate</span>&gt;1.3&lt;/<span class="kw">atkrate</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">weapon</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">hero</span>&gt;</span></code></pre></div>
+<p>親子構造を保持するので、データへのアクセス方法は、若干特殊です。
+上記の例で、hpを取り出す方法をまとめると、以下のようになります。</p>
+<ol type="1">
+<li>ファイル全体を取得</li>
+<li>一番外側のheroタグを探す</li>
+<li>その中のhpタグを取得</li>
+<li>hpタグの中身を文字列で取り出す</li>
+</ol>
+<p>JavaScriptを用いてこれらの操作するには、<code>document.getElementById</code>などのDOM探索のAPIが使用できます。※詳細は割愛。</p>
+<h2 id="json形式-javascript-object-nortation">JSON形式 (JavaScript
+Object Nortation)</h2>
+<p>XML形式と似たようなデータ・フォーマットで、データのネストが可能です。<br />
+名前からわかるように、もともとはJavaScriptのために用意されたデータ形式です。</p>
+<p>JavaScriptではこのデータ形式を自動的にインスタンス化してオブジェクトとして利用できるメリットがあります。<br />
+また、XMLに比べ軽量で、Webシステムなどでよく利用されるデータ・フォーマットです。</p>
+<p>上記XMLサンプルと同じデータをJSONで表現すると以下のようになります。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;hero&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;たろう&quot;</span><span class="fu">,</span><span class="dt">&quot;hp&quot;</span><span class="fu">:</span><span class="dv">100</span><span class="fu">,</span><span class="dt">&quot;atk&quot;</span><span class="fu">:</span><span class="dv">50</span><span class="fu">,</span> <span class="dt">&quot;weapon&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;name&quot;</span><span class="fu">:</span><span class="st">&quot;きのぼう&quot;</span><span class="fu">,</span><span class="dt">&quot;rate&quot;</span><span class="fu">:</span><span class="fl">1.3</span><span class="fu">}</span> <span class="fu">}</span> <span class="fu">}</span></span></code></pre></div>
+<p>特徴としては、数値を数値として保持できるところと、データ量がXMLに比べ軽量であるところです。</p>
+<p>昨今のWebアプリケーション開発では、JSON形式が広く使われております。
+サーバーアプリケーションの開発においても、JSON形式のテキストデータ吐き出しが可能であればフロントエンド開発がやりやすくなります。</p>
+<h2 id="クロスドメインクロスサイトにおけるajaxの扱い">クロスドメイン（クロスサイト）におけるAJAXの扱い</h2>
+<p>Webブラウザにおけるセキュリティ上の制限として、<em><strong>同一生成元ポリシー</strong></em>
+というものがあります。</p>
+<p>この同一生成元ポリシーと言うのは、簡単に言うと、「Ajaxで通信できるサーバーは、自分自身のWebサーバーのみ」という制限です。</p>
+<p>たとえば、「localhost:8080で起動しているサーバーから、yahoo.co.jp上にあるデータに対してAjaxの通信は行うことができない。」などの状況がこれに当たります。</p>
+<p>詳しくは、以下のリンク先を参照してください。</p>
+<p><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Same_origin_policy_for_JavaScript">同一生成元ポリシー
+- JavaScript | MDN</a></p>
+<p>ただ、この制限は、Webブラウザ上で動作するJavaScriptのみに課せられた制限です。
+Webサーバー上で動作するプログラムには、この制限はありません。
+そのため、外部サイトからデータを持ってきたい場合には、Webサーバー側のプログラムで橋渡しをしてあげれば良いだけです。</p>
+<p>外部サイトのデータを使ったWebアプリケーションを作る場合は、外部サイトのデータ取得はサーバーサイドで行うと困ることが少ないです。</p>
+<h3 id="cros対応について">CROS対応について</h3>
+<p>ドメインが異なるURLに対してJSONデータを公開したいなどの要望がある場合には、オリジン間リソース共有（CROS）の設定をサーバープログラム側にて行うことで対応できます。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/HTTP/CORS">オリジン間リソース共有
+(CORS) | MDN</a></li>
+</ul>
+<p><code>http://exsample.com/</code>上でクライアントサイドのアプリケーションを配布しており、APIサーバーを<code>http://api.sample.com/</code>で開発している場合を考えます。
+この場合望ましいのは、HTTPレスポンスヘッダにて<code>Access-Control-Allow-Origin</code>のデータに<code>http://exsample.com/</code>のみを設定することです。</p>
+<h3 id="flaskにおけるcors">FlaskにおけるCORS</h3>
+<p>HTTPのレスポンスヘッダに<code>Access-Control-Allow-Origin: *</code>を追加することで対応可能です。
+※この方法は、セキュリティの観点から極力避けるべき方法です。</p>
+<p>レスポンスヘッダに情報を追加する方法については割愛します。</p>
+<p>また、以下の専用ライブラリもあり、どちらでもお好きな方を使用すると良いでしょう。</p>
+<ul>
+<li><a href="https://github.com/corydolphin/flask-cors" target="_blank">GitHub
+- corydolphin/flask-cors: Cross Origin Resource Sharing ( CORS ) support
+for Flask</a></li>
+</ul>
+<p>ただ、Flaskアプリケーション上で静的コンテンツの配信も行えるため、わざわざCORS対応する必要があるかどうかをよく考えましょう。</p>
+<hr />
+<h1 id="クライアントサイトプログラムからのhttpリクエスト">クライアントサイトプログラムからのHTTPリクエスト</h1>
+<h2 id="javascriptによるfetch">JavaScriptによるfetch</h2>
+<p>WebAPIのサンプルプログラムでは、JavaScriptの<code>Fetch API</code>と呼ばれる新しい仕様を使っています。
+サンプルプログラムは、クライアント側からサーバーへ直接HTTPのネゴシエーションを行い、JSON形式のデータを取得、画面に内容を表示しています。</p>
+<p>Fetch APIの詳しい内容は、以下のリンク先が参考になります。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/API/Fetch_API">Fetch API
+- Web API | MDN</a>
+<ul>
+<li>こちらも併せて読もう : <a href="https://developer.mozilla.org/ja/docs/Web/API/Fetch_API/Using_Fetch">Fetch
+を使う - Web API | MDN</a></li>
+</ul></li>
+<li><a href="https://jsprimer.net/use-case/ajaxapp/http/">HTTP通信 ·
+JavaScript Primer #jsprimer</a></li>
+</ul>
+<p>Fetch
+API自体が使用できない場合（ブラウザが古い場合）は、XMLHttpRequestという方法もあります。
+今はあまりないですが、古いブラウザにも対応しなければならない場合は、そちらを使用してください。</p>
+<h1 id="データの送信">データの送信</h1>
+<h2 id="fetch-apiを使ったpostメソッドのリクエスト">Fetch
+APIを使ったPOSTメソッドのリクエスト</h2>
+<p>Fetch APIの場合、もう少し詳しいデータの送信が手軽に行えます。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fetch</span>(<span class="st">&#39;url&#39;</span><span class="op">,</span> {<span class="dt">method</span><span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span> <span class="dt">body</span><span class="op">:</span> data<span class="op">,</span>}) <span class="co">// dataには送りたいデータが入っているものとする</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">then</span>(<span class="kw">function</span> (response) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> response<span class="op">.</span><span class="fu">text</span>()<span class="op">;</span> <span class="co">// リクエストを送信して、レスポンスが得られたら実行される</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    })</span></code></pre></div>
+<p>また、formタグで囲われた範囲のデータを送信対象としたい場合などには、以下のFormDataが便利です。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/Guide/Using_FormData_Objects">FormData
+オブジェクトの利用 - 開発者ガイド | MDN</a></li>
+</ul>
+<h1 id="外部ライブラリを使ったhttp通信">外部ライブラリを使ったHTTP通信</h1>
+<p>この資料では、標準のJavaScriptでのHTTP通信サンプルプログラムを提示しました。</p>
+<p>この他にも、外部ライブラリを使用することでもHTTP通信を実現できます。</p>
+<p>たとえば、以下のようなライブラリがあります。</p>
+<ul>
+<li><a href="https://jquery.com/">jQuery</a>
+<ul>
+<li><a href="https://api.jquery.com/jquery.ajax/">jQuery.ajax() | jQuery
+API Documentation</a> でAjax用の通信ができます。</li>
+</ul></li>
+<li><a href="https://github.com/axios/axios">axios/axios: Promise based
+HTTP client for the browser and node.js</a>
+<ul>
+<li>jQueryよりシンプルかつPromise対応なのが便利（Fetch
+APIと似てる）</li>
+</ul></li>
+<li><a href="http://visionmedia.github.io/superagent/">SuperAgent —
+elegant API for AJAX in Node and browsers</a>
+<ul>
+<li>axiosと似たようなもの</li>
+</ul></li>
+</ul>
+<p>Fetch
+APIの仕様が新しすぎるため、これらのライブラリを使用したほうが対応ブラウザの幅が広がることになるでしょう。</p>
+</body>
+</html>

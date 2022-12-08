@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>02_クラス</title>
+  <style type="text/css">
+*, *::before, *::after {
+box-sizing: border-box;
+}
+code{ white-space: pre-wrap; }
+span.smallcaps{ font-variant: small-caps; }
+span.underline{ text-decoration: underline; }
+div.column{ display: inline-block; vertical-align: top; width: 50%; }
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p, table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1, h2, h3, h4, h5, h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 { font-size: 2rem; margin: 2rem auto 1rem; text-align: center; }
+h2 { font-size: 1.75rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2); margin: 2rem 0 1rem; }
+h3 { font-size: 1.5rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2); margin: 2rem 0 1rem; }
+h4 { font-size: 1.25rem; margin: 2rem 0 1rem; }
+h5 { font-size: 1.2rem; margin: 2rem 0 1rem; }
+h6 { font-size: 1.1rem; margin: 2rem 0 1rem; }
+ul, ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li, ol li {
+padding-left: .5rem;
+}
+ul ul, ol ul,
+ul ol, ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+pre, code, var, samp, kbd, .mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 1rem;
+border-radius: 4px;
+}
+pre code, pre tt {
+background-color: transparent;
+border: none;
+}
+pre.sourceCode {
+overflow: auto !important;
+}
+img, iframe, figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+</style>
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #c4a000; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #000000; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #000000; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #000000; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<h1 id="クラス">クラス</h1>
+<p>公式ドキュメント</p>
+<ul>
+<li><p>class：<a href="https://docs.python.org/ja/3/tutorial/classes.html">https://docs.python.org/ja/3/tutorial/classes.html</a></p></li>
+<li><p>データモデル（__init__, __del__, __str__ など）：<a href="https://docs.python.org/ja/3/reference/datamodel.html#object.__str__">https://docs.python.org/ja/3/reference/datamodel.html#object.__str__</a></p></li>
+</ul>
+<p>docstringの書き方について</p>
+<ul>
+<li><p>クラス宣言直後やメソッド宣言直後にクラスやメソッドの説明が書ける(Googleスタイルもあるそうです)</p></li>
+<li><p>Numpyスタイル: <a href="https://numpydoc.readthedocs.io/en/latest/format.html">https://numpydoc.readthedocs.io/en/latest/format.html</a></p></li>
+</ul>
+<h2 id="クラスの定義">クラスの定義</h2>
+<p>クラスを定義します．</p>
+<p>この後の演習でこのクラスを使いますので，Moodleから<code>lecture03_hero.py</code>ファイルをダウンロードして実行ディレクトリに保存してください．</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env python</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -*- coding: utf-8 -*-</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ↑はシバンと文字コードの指定（説明はしないけど大切なので調べてみて欲しい）</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># クラスを「class 〇〇」で宣言する</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Hero:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    HeroクラスはOOP2の学習のために作ったサンプルコードです</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Attributes</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    name : str</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">        Heroの名前　インスタンス作成時に指定する</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    hp : int, default is __DEFAULT_HP = 100</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">        Heroの初期HP　指定しない場合はデフォルト値となる</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Javaでいうstatic変数</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># クラスのインスタンスを作らなくてもアクセスできる</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 定数は大文字アルファベットなどルールを設けることが多い</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 複数のHeroインスタンスのjob_statusは共通なのでHero職へのバフに使う</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 例：Hero全体のステータスの向上はjob_status値を変更</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    __DEFAULT_HP <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    buf_status <span class="op">=</span> {<span class="st">&#39;hp&#39;</span>: <span class="dv">0</span>}</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># コンストラクタ</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># デフォルト値を指定することもできる</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># なお，引数が異なるコンストラクタを定義することはできない</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name, hp<span class="op">=</span>__DEFAULT_HP):</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">        コンストラクタ</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">        ----------</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">        name : str</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">            デフォルト値が設定されていないので必ず必要</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">        hp : int</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">            デフォルト値は全ヒーロー共通で__DEFAULT_HPとする</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.name <span class="op">=</span> name <span class="co"># クラス内の変数を「self.変数名」で宣言する（コンストラクタ以外でも宣言可能）</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.hp <span class="op">=</span> hp</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__weapon_id <span class="op">=</span> <span class="va">None</span> <span class="co"># アンダーバーを2個つけるとprivate（武器は未実装）</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># デストラクタ</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__del__</span>(<span class="va">self</span>):</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3項演算子（1行でif文を書く： 真のときの返り値 if 条件 else 偽のときの返り値）</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>        message <span class="op">=</span> <span class="st">&#39;一時パーティー離脱&#39;</span> <span class="cf">if</span> <span class="va">self</span>.getHP()<span class="op">&gt;</span><span class="dv">0</span> <span class="cf">else</span> <span class="st">&#39;死亡のためパーティー離脱&#39;</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&#39;</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>name<span class="sc">}</span><span class="ss">は</span><span class="sc">{</span>message<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 特殊な関数の宣言</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>):</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f&#39;&quot;名前&quot;: &quot;</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>name<span class="sc">}</span><span class="ss">&quot;, &quot;HP&quot;: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>getHP()<span class="sc">}</span><span class="ss">&#39;</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bufの影響を計算してhpを返すメソッド</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> getHP(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co">        ヒーロのHPをbutを考慮して返す</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co">        Returens</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="co">        --------</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co">        hp : int</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co">            HPに関係したbufが存在すればbufを加えてHPを返す</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">&#39;hp&#39;</span> <span class="kw">in</span> Hero.buf_status.keys():</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.hp <span class="op">+</span> Hero.buf_status[<span class="st">&#39;hp&#39;</span>]</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.hp</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    <span class="co"># DefaultHPのゲッター(selfを引数に入れないとstatic扱い)</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> getDefaultHP() <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="co">        privateかつstaticな変数__DEFAULT_HPのゲッター</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Hero.__DEFAULT_HP</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 別のHeroクラスのインスタンスを受け取り，ダメージを与えるメソッド</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 未開発です</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> damage(<span class="va">self</span>, enemy):</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">NotImplementedError</span>()</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>    hero1 <span class="op">=</span> Hero(<span class="st">&#39;愛知太郎&#39;</span>) <span class="co"># Heroクラスのインスタンスを生成，後に()がついているのは関数呼び出しかクラスインスタンス生成</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;hero1=</span><span class="sc">{</span><span class="bu">str</span>(hero1)<span class="sc">}</span><span class="ss">&#39;</span>) <span class="co"># 文字列に変換</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>    hero2 <span class="op">=</span> Hero(name<span class="op">=</span><span class="st">&#39;愛知花子&#39;</span>, hp<span class="op">=</span><span class="dv">200</span>) <span class="co"># 引数名を指定してコンストラクタを呼び出し</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;hero2=</span><span class="sc">{</span><span class="bu">str</span>(hero2)<span class="sc">}</span><span class="ss">&#39;</span>) <span class="co"># 文字列に変換</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>    <span class="co"># クラスメソッドの内，第1引数にselfが書かれているメソッドはインスタンスを作成して初めて呼び出せる</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;hero1のHPは</span><span class="sc">{</span>hero1<span class="sc">.</span>getHP()<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>    <span class="co"># __DEFAULT_HPはPrivate変数なので直接アクセスするとエラーになる(↓の行のコメントを実行してみましょう)</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(Hero.__DEFAULT_HP) # private変数にアクセスできてしまうのであくまでもprivate扱いして欲しい変数</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>    <span class="co"># classの外からprivate変数にアクセスしたければアクセサー（get, set)を作ります</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(Hero.getDefaultHP()) <span class="co"># static扱いの変数はインスタンス化しなくても実行可能</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Hero全員のHPが下がるトラップ（デバフ）発動&quot;</span>) <span class="co"># フレーバーテキスト</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>    <span class="co"># buf_statusはJavaでいうstaticな変数なのでインスタンス化しなくてもアクセスできる</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>    Hero.buf_status[<span class="st">&#39;hp&#39;</span>] <span class="op">-=</span> <span class="dv">50</span> <span class="co"># hero1にもhero2にも今後作られるHeroインスタンスにもデバフがかかる</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;hero1のHPは</span><span class="sc">{</span>hero1<span class="sc">.</span>getHP()<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;hero2のHPは</span><span class="sc">{</span>hero2<span class="sc">.</span>getHP()<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;hero1はHero全員のHPが下がる呪い（デバフ）をうけた&quot;</span>) <span class="co"># フレーバーテキスト</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>    hero1.buf_status[<span class="st">&#39;hp&#39;</span>] <span class="op">-=</span> <span class="dv">50</span> <span class="co"># hero1にもhero2にも今後作られるHeroインスタンスにもデバフがかかる</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;Hero.job_status = </span><span class="sc">{</span>Hero<span class="sc">.</span>buf_status<span class="sc">}</span><span class="ss">&#39;</span>) <span class="co"># Heroクラスのjob_statusの値が変わる</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;hero1=</span><span class="sc">{</span><span class="bu">str</span>(hero1)<span class="sc">}</span><span class="ss">&#39;</span>) <span class="co"># 文字列に変換</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>    <span class="kw">del</span> hero1 <span class="co"># インスタンスを削除=&gt;死亡のためパーティー離脱</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&#39;hero2=</span><span class="sc">{</span><span class="bu">str</span>(hero2)<span class="sc">}</span><span class="ss">&#39;</span>) <span class="co"># 文字列に変換</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>    <span class="kw">del</span> hero2 <span class="co"># インスタンスを削除=&gt;一時パーティー離脱</span></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>    hero3 <span class="op">=</span> Hero(name<span class="op">=</span><span class="st">&#39;愛知さぶろう&#39;</span>, hp<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>    hero3.damage(hero3) <span class="co"># 実装していないので例外(raise)が呼び出される</span></span></code></pre></div>
+<h2 id="lecture03_hero.pyを実行してみる">lecture03_hero.pyを実行してみる</h2>
+<p>実行方法1(ターミナルで以下を実行)</p>
+<ul>
+<li><code>python lecture03_hero.py</code></li>
+</ul>
+<p>実行結果1</p>
+<pre><code>hero1=&quot;名前&quot;: &quot;愛知太郎&quot;, &quot;HP&quot;: 100
+hero2=&quot;名前&quot;: &quot;愛知花子&quot;, &quot;HP&quot;: 200
+hero1のHPは100
+100
+Hero全員のHPが下がるトラップ（デバフ）発動
+hero1のHPは50
+hero2のHPは150
+hero1はHero全員のHPが下がる呪い（デバフ）をうけた
+Hero.job_status = {&#39;hp&#39;: -100}
+hero1=&quot;名前&quot;: &quot;愛知太郎&quot;, &quot;HP&quot;: 0
+愛知太郎は死亡のためパーティー離脱
+hero2=&quot;名前&quot;: &quot;愛知花子&quot;, &quot;HP&quot;: 100
+愛知花子は一時パーティー離脱
+Traceback (most recent call last):
+  File &quot;/Users/take/Nextcloud/Documents/2022/愛知工業大学/2KK-OOP/AU/講義資料/03-Python基礎/my_module/lecture03_hero.py&quot;, line 115, in &lt;module&gt;
+    hero3.damage(hero3) # 実装していないので例外(raise)が呼び出される
+  File &quot;/Users/take/Nextcloud/Documents/2022/愛知工業大学/2KK-OOP/AU/講義資料/03-Python基礎/my_module/lecture03_hero.py&quot;, line 85, in damage
+    raise NotImplementedError()
+NotImplementedError
+愛知さぶろうは死亡のためパーティー離脱</code></pre>
+<p>実行方法2(インタープリタでHeroクラスを使う)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lecture03_hero <span class="im">import</span> Hero</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hero1 <span class="op">=</span> Hero(<span class="st">&#39;愛知太郎&#39;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">str</span>(hero1)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 以降__main__の中を順次実行</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>exit() <span class="co"># インタープリタを終了</span></span></code></pre></div>
+<h2 id="ポイント">ポイント</h2>
+<p>以下のチェック項目について該当箇所と実行結果を探してみよう</p>
+<ol type="1">
+<li><p>クラスの宣言は「class クラス名:」で始まる</p></li>
+<li><p>publicな変数(self.nameなど)と，アンダーバー2個が変数名の前に付くprivateな変数(__weapon_idなど)が宣言できる</p></li>
+<li><p>static変数（インスタンス化しなくても実体化されているもの）はbuf_statusはself.〇〇ようにselfをつけない．また，クラス宣言直後のブロックに書く</p></li>
+<li><p>クラス内のメソッド（コンストラクタなど）は<code>def __init__(self, 引数):</code> のように第1引数にselfをつけて宣言する</p></li>
+<li><p>staticメソッド（インスタンス化しなくても呼び出せるメソッド）は<code>def getDefaultHP() -&gt; int:</code>のように第1引数にselfをつけずに宣言する（関数内からはself.nameにもちろんアクセスできない）</p></li>
+</ol>
+<h2 id="まとめ">まとめ</h2>
+<p>Pythonのクラス宣言方法を紹介した．</p>
+<p>クラスの利用方法としてプログラムファイルの__main__を実行する方法とインタープリタから利用する方法を紹介した．</p>
+<p>コンストラクタやデストラクタなど特殊な関数の定義方法を紹介した．</p>
+<p>デストラクタ内では，三項演算子が使われているので探して欲しい．</p>
+<ul>
+<li>(真の時) if (条件) else (偽の時)</li>
+</ul>
+<p>グループワークではクラスを作ることになるので，ぜひ，公式ドキュメントを読んで欲しい．（日本語です．）</p>
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>Flaskを使った簡単なWebアプリケーションの作成</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #c4a000; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #000000; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #000000; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #000000; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+code {
+white-space: pre-wrap;
+}
+span.smallcaps {
+font-variant: small-caps;
+}
+span.underline {
+text-decoration: underline;
+}
+div.column {
+display: inline-block;
+vertical-align: top;
+width: 50%;
+}
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p,
+table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 {
+font-size: 2rem;
+margin: 2rem auto 1rem;
+text-align: center;
+}
+h2 {
+font-size: 1.75rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h3 {
+font-size: 1.5rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h4 {
+font-size: 1.25rem;
+margin: 2rem 0 1rem;
+}
+h5 {
+font-size: 1.2rem;
+margin: 2rem 0 1rem;
+}
+h6 {
+font-size: 1.1rem;
+margin: 2rem 0 1rem;
+}
+ul,
+ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li,
+ol li {
+padding-left: .5rem;
+}
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+width: 100% !important;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+img,
+iframe,
+figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+div.sourceCode {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+margin-top: 1rem;
+margin-bottom: 1rem;
+border-radius: 4px;
+padding: 1rem;
+}
+div.sourceCode pre,
+div.sourceCode code {
+background-color: transparent;
+margin: 0;
+}
+pre code,
+pre tt {
+background-color: transparent;
+border: none;
+}
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+margin: 0;
+padding: 0;
+vertical-align: top;
+border: none;
+}
+table.sourceCode pre {
+padding: 2px;
+margin: 0;
+border: none;
+color: inherit;
+}
+table.sourceCode code {
+color: inherit;
+}
+table.sourceCode {
+width: 100%;
+line-height: 100%;
+}
+td.lineNumbers {
+text-align: right;
+color: #aaaaaa;
+border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">Flaskを使った簡単なWebアプリケーションの作成</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習2</p>
+<p>WebアプリケーションフレームワークのFlaskを使ってみましょう</p>
+</blockquote>
+<h2 id="webアプリケーションフレームワークflaskの導入">WebアプリケーションフレームワークFlaskの導入</h2>
+<p>Flaskは、PythonでWebアプリケーションを構築するためのライブラリです。</p>
+<p>講義で説明する内容以外のことは、以下の公式サイトか、日本語翻訳版のどちらかを参照するようにしてください。</p>
+<ul>
+<li><a href="https://flask.palletsprojects.com/en/2.0.x/" target="_blank">Welcome
+to Flask — Flask Documentation (2.0.x)</a></li>
+<li><a href="https://msiz07-flask-docs-ja.readthedocs.io/ja/latest/" target="_blank">Flaskへようこそ
+— Flask Documentation (2.0.x)</a></li>
+</ul>
+<h2 id="flaskを使った簡単なアプリケーションの作成">Flaskを使った簡単なアプリケーションの作成</h2>
+<h3 id="1-インストール">1. インストール</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pyenv local 3.10.6 <span class="co"># これが行われているディレクトリで実行しましょう。</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python <span class="at">-m</span> pip install flask</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># または</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install flask</span></code></pre></div>
+<h3 id="2-プロジェクトの作成">2. プロジェクトの作成</h3>
+<p>任意のディレクトリを作成し、そのディレクトリの中に以下のファイル、ディレクトリを作成してください。</p>
+<pre><code>[projectディレクトリ]
+  ├[static]
+  │  └ここには、CSSやJavaScriptなどの静的なファイルを格納します。今は空でOK
+  ├[templates]
+  │  └ここには、後述するJinja用のテンプレートHTMLを格納します。今は空でOK
+  └main.py ⇠ プロジェクトのエントリポイント</code></pre>
+<p><code>flaskapp</code>というプロジェクトディレクトリを作成する場合は、以下のコマンドを使うと良いでしょう。
+<code>pyenv</code>によるバージョンの切り替えを忘れずに行いましょう。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd <span class="co"># ホームディレクトリに移動</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd work/oop2 <span class="co"># 作業ディレクトリに移動</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pyenv local 3.10.6 <span class="co"># 必須</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install flask <span class="co"># インストール済みであれば不要</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir flaskapp</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd flaskapp</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir static</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir templates</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch main.py</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> code .</span></code></pre></div>
+<h3 id="3-mainpyのコーディング">3. main.pyのコーディング</h3>
+<p>以下のコードを<code>main.py</code>に書いてください。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask, request    <span class="co"># Flaskは必須、requestはリクエストパラメータを処理する場合に使用します。</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># http://localhost:8888/hello</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/hello&#39;</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hello():</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&quot;&lt;html&gt;&lt;h1&gt;Hello, Flask!!&lt;/h1&gt;&lt;/html&gt;&quot;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># GETパラメータの取得（クエリストリングより）</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># http://localhost:8888/</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/&#39;</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> index():</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    html <span class="op">=</span> <span class="st">&quot;&lt;html&gt;&lt;h3&gt;index page&lt;/h3&gt;&lt;ol&gt;&quot;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># URL中のクエリストリングを処理(個別に取得したい場合は、request.args.get(&quot;hoge&quot;)が使えます)</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key, value <span class="kw">in</span> request.args.items():</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        html <span class="op">+=</span> <span class="st">&quot;&lt;li&gt;</span><span class="sc">{}</span><span class="st">: </span><span class="sc">{}</span><span class="st">&lt;/li&gt;&quot;</span>.<span class="bu">format</span>(key, value)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="st">&quot;&lt;/ol&gt;&lt;/html&gt;&quot;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> html</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># debugモードが不要の場合は、debug=Trueを消してください</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    app.run(host<span class="op">=</span><span class="st">&quot;localhost&quot;</span>, port<span class="op">=</span><span class="dv">8888</span>, debug<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<h3 id="4-実行してみる">4. 実行してみる</h3>
+<p>プロジェクトディレクトリをターミナルで開き、以下のコマンドで実行します。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python main.py</span></code></pre></div>
+<p>動作確認はブラウザを開き、<code>http://localhost:8888/hello</code>、または、<code>http://localhost:8888/</code>にアクセスしてください。</p>
+<p>また、<code>index()</code>関数で定義しているリクエストパスでは、リクエストに含まれるクエリストリングを解析して表示するプログラムも含まれています。以下のURLも試してみましょう。</p>
+<ul>
+<li><code>http://localhost:8888/?name=HOGE&amp;age=20</code></li>
+<li><code>http://localhost:8888/?name=FUGA&amp;age=120</code></li>
+<li><code>http://localhost:8888/?hoge=HOGEHOGE&amp;fuga=FUGAFUGA</code></li>
+</ul>
+<h3 id="5-プログラムの停止">5. プログラムの停止</h3>
+<p>実行しているプログラムは、<code>[control] + [C]</code>で停止させられます。</p>
+<h3 id="6-機能を追加して動作確認をする">6.
+機能を追加して動作確認をする</h3>
+<p>以下のコードを<code>main.py</code>に追加しましょう。
+追加する場所は、<code>if __name__ == &quot;__main__&quot;:</code>の前に差し込みます。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># GETパラメータの取得（REST APIに対応可能）</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># http://localhost:8888/get/</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># http://localhost:8888/get/&lt;String&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/get/&#39;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/get/&lt;name&gt;&#39;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_param(name<span class="op">=</span><span class="st">&quot;no name&quot;</span>):  <span class="co"># nameパラメータが渡されなかった場合、「no name」が渡されます</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&quot;&lt;html&gt;&lt;h1&gt;Hello, </span><span class="sc">{}</span><span class="st">!!&lt;/h1&gt;&lt;/html&gt;&quot;</span>.<span class="bu">format</span>(name)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># GET,POSTどちらでもリクエストを受け付け、POSTの場合はリクエストボディを取得</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># （コマンドラインでの動作確認は、$ curl -X POST -d &quot;name=hoge&quot; http://localhost:8888/post/ でできます。）</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># http://localhost:8888/post/</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/post/&#39;</span>, methods<span class="op">=</span>[<span class="st">&quot;GET&quot;</span>, <span class="st">&quot;POST&quot;</span>])  <span class="co"># methods=[&quot;POST&quot;]のみにすればGETメソッドでのリクエストはエラーにできる</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> post_param():</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> request.method <span class="op">==</span> <span class="st">&#39;POST&#39;</span>:</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># name = request.form[&#39;name&#39;]</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        name <span class="op">=</span> request.form.get(<span class="st">&quot;name&quot;</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&quot;&lt;html&gt;&lt;h1&gt;Hello, </span><span class="sc">{}</span><span class="st">!!&lt;/h1&gt;&lt;/html&gt;&quot;</span>.<span class="bu">format</span>(name)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        name <span class="op">=</span> <span class="st">&quot;no name&quot;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&quot;&lt;html&gt;&lt;h1&gt;Hello, </span><span class="sc">{}</span><span class="st">!!&lt;/h1&gt;&lt;/html&gt;&quot;</span>.<span class="bu">format</span>(name)</span></code></pre></div>
+<p>動作確認のために、以下のようなHTMLを作成しても良いでしょう。
+適当な名前で以下のHTMLを作成し、ブラウザで直接開いてみましょう。
+（このHTMLは、http.serverの拡張プログラムの動作確認のHTMLコードと似たようなものです。）</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;ja&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;title&gt;</span>Flask動作確認フォーム<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1&gt;</span>Flask動作確認フォーム<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h2&gt;</span>GETメソッドの動作確認<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;ol&gt;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>通常のリクエスト(hello) - <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/hello&quot;</span><span class="kw">&gt;</span>http://localhost:8888/hello<span class="kw">&lt;/a&gt;&lt;/li&gt;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>通常のリクエスト - <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/&quot;</span><span class="kw">&gt;</span>http://localhost:8888/<span class="kw">&lt;/a&gt;&lt;/li&gt;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>パラメータセット - <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/?hoge=hogehoge</span><span class="er">&amp;</span><span class="st">fuga=fugafuga&quot;</span><span class="kw">&gt;</span>http://localhost:8888/?hoge=hogehoge<span class="er">&amp;</span>fuga=fugafuga<span class="kw">&lt;/a&gt;&lt;/li&gt;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>フォームから送信 - <span class="kw">&lt;br&gt;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;form</span> <span class="er">action</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/&quot;</span> <span class="er">method</span><span class="ot">=</span><span class="st">&quot;get&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input1&quot;</span><span class="kw">&gt;</span>hoge:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input1&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;hoge&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input2&quot;</span><span class="kw">&gt;</span>fuga:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input2&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;fuga&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input3&quot;</span><span class="kw">&gt;</span>piyo(number):<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;number&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input3&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;piyo&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;button</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span>送信<span class="kw">&lt;/button&gt;</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/li&gt;</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>RESTっぽいリクエスト（パラメータなし） - <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/get/&quot;</span><span class="kw">&gt;</span>http://localhost:8888/get/<span class="kw">&lt;/a&gt;&lt;/li&gt;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>RESTっぽいリクエスト（パラメータあり） - <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/get/Taro&quot;</span><span class="kw">&gt;</span>http://localhost:8888/get/Taro<span class="kw">&lt;/a&gt;&lt;/li&gt;</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/ol&gt;</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;hr&gt;</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h2&gt;</span>POSTメソッドの動作確認<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;ol&gt;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>通常のリクエスト(post: methods=[&quot;GET&quot;, &quot;POST&quot;]の場合、こちらはエラーにならないはず) - <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/post/&quot;</span><span class="kw">&gt;</span>http://localhost:8888/post/<span class="kw">&lt;/a&gt;&lt;/li&gt;</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>フォームから送信 - <span class="kw">&lt;br&gt;</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;form</span> <span class="er">action</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/post/&quot;</span> <span class="er">method</span><span class="ot">=</span><span class="st">&quot;POST&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input1&quot;</span><span class="kw">&gt;</span>name:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input1&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;name&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;button</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span>送信<span class="kw">&lt;/button&gt;</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/li&gt;</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>フォームから送信(必要なパラメータが設定されていない場合エラーになる) - <span class="kw">&lt;br&gt;</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;form</span> <span class="er">action</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/post/&quot;</span> <span class="er">method</span><span class="ot">=</span><span class="st">&quot;POST&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input2&quot;</span><span class="kw">&gt;</span>hoge:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input2&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;hoge&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;button</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span>送信<span class="kw">&lt;/button&gt;</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/li&gt;</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/ol&gt;</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>HTMLによる、GET,POSTメソッドのリクエストの違いは、Webアプリケーションを作成するうえで大変重要な違いです。
+動作の違いをブラウザの開発者ツールで確認し、きちんと理解しておきましょう。</p>
+<hr />
+<h2 id="テンプレートエンジンを使用する">テンプレートエンジンを使用する</h2>
+<p>Flaskでは、Jinjaと呼ばれるテンプレートエンジンを採用しています。Flaskをインストールすると、内部的にはJinjaもインストール済みになります。</p>
+<p>テンプレートエンジンのJinjaは、以下の公式サイトにてドキュメントを確認できます。</p>
+<ul>
+<li><a href="https://jinja.palletsprojects.com/en/3.0.x/" target="_blank">Jinja
+— Jinja Documentation (3.0.x)</a></li>
+</ul>
+<h3 id="1-テンプレートファイルの用意">1. テンプレートファイルの用意</h3>
+<p>以下のHTMLを<code>templates</code>ディレクトリ以下に、<code>template1.html</code>として作成してください。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;ja&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;title&gt;</span>トップページ<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1&gt;</span>Flask with Jinja Template<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  {% if name %}</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h3&gt;</span>Hello, {{ name }}!<span class="kw">&lt;/h3&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  {% else %}</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h3&gt;</span>Hello, Jinja!!<span class="kw">&lt;/h3&gt;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  {% endif %}</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<h3 id="2-mainpyの修正">2. main.pyの修正</h3>
+<p><code>main.py</code>の1行目の以下の様にインポートに、<code>rendar_template</code>を追加します。</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask, request, render_template</span></code></pre></div>
+<p>続いて、以下の関数を<code>main.py</code>に追加してください。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Jinjaを使ったテンプレートファイルのサンプル</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># http://localhost:8888/template_sample/</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># http://localhost:8888/template_sample/&lt;String&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/template_sample/&#39;</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/template_sample/&lt;name&gt;&#39;</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> from_template(name<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(<span class="st">&#39;template1.html&#39;</span>, name<span class="op">=</span>name)</span></code></pre></div>
+<h3 id="3-動作確認">3. 動作確認</h3>
+<p>実行後、以下のURLで動作確認をしましょう。</p>
+<ul>
+<li><code>http://localhost:8888/template_sample/</code></li>
+<li><code>http://localhost:8888/template_sample/Saburo</code></li>
+</ul>
+<h2 id="jinjaテンプレートで使用できる構文">Jinjaテンプレートで使用できる構文</h2>
+<p>以下の公式ドキュメントを見てください。</p>
+<ul>
+<li><a href="https://jinja.palletsprojects.com/en/3.0.x/" target="_blank">Jinja
+— Jinja Documentation (3.0.x)</a></li>
+</ul>
+<p>ListやDictなどをテンプレート側に渡すこともできますし、テンプレートのみでコンポーネント化を行うことも可能です。
+Webアプリケーションで複数の画面を扱う場合には、以下のテンプレート構築のマニュアルがあります。</p>
+<ul>
+<li><a href="https://jinja.palletsprojects.com/en/3.0.x/templates/" target="_blank">Template
+Designer Documentation — Jinja Documentation (3.0.x)</a></li>
+</ul>
+<p>英文ですがこれさえ見ておけば大抵なんとかなるはずです。</p>
+<hr />
+<h2 id="cssやjavascriptなどの静的なファイルを使う">CSSやJavaScriptなどの静的なファイルを使う</h2>
+<p>ドキュメントは、以下のURLを参照してください。</p>
+<ul>
+<li><a href="https://msiz07-flask-docs-ja.readthedocs.io/ja/latest/tutorial/static.html?highlight=static" target="_blank">静的ファイル
+— Flask Documentation (2.0.x)</a></li>
+</ul>
+<h3 id="1-ファイルの用意">1. ファイルの用意</h3>
+<p>以下のCSSを<code>static</code>ディレクトリ以下に<code>index.css</code>というファイル名で配置しましょう。</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>h1 {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span>: <span class="cn">red</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>配置が完了したら、以下のテンプレートを<code>index.html</code>というファイル名で、<code>templates</code>ディレクトリ以下に配置してください。</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;ja&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;title&gt;</span>Hello<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;link</span> <span class="er">rel</span><span class="ot">=</span><span class="st">&quot;stylesheet&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;index.css&#39;) }}&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;h1&gt;</span>Hello, Flask!!<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<h3 id="2-mainpyの修正-1">2. main.pyの修正</h3>
+<p>以下の関数を<code>main.py</code>に追加してください。</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Jinjaテンプレートで静的なファイルを参照するサンプル</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># http://localhost:8888/index</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/index&#39;</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> static_index():</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(<span class="st">&#39;index.html&#39;</span>)</span></code></pre></div>
+<h3 id="3-動作確認-1">3. 動作確認</h3>
+<p><code>$ python main.py</code>で実行後、以下のURLで動作確認をしましょう。</p>
+<ul>
+<li><code>http://localhost:8888/index</code></li>
+</ul>
+<p>CSSにより、装飾がなされていて、<code>Hello, Flask!!</code>
+の文字が赤くなっていればOKです。</p>
+<hr />
+<h1 id="flaskまとめ">Flaskまとめ</h1>
+<p>Flaskを使用すると、Webアプリケーションの必要最低限の部分をライブラリにお任せして、プログラマはアプリケーションのロジック開発に専念することが可能となります。
+Webアプリケーションフレームワークには、Flask以外にもいくつかあり、それぞれに長所短所があります。
+他のライブラリ同様に、自分が作成したいアプリケーションの特徴に応じて使用するライブラリを切り替えると良いでしょう。</p>
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>JavaScriptでWebページを操作する</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #c4a000; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #000000; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #000000; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #000000; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+code {
+white-space: pre-wrap;
+}
+span.smallcaps {
+font-variant: small-caps;
+}
+span.underline {
+text-decoration: underline;
+}
+div.column {
+display: inline-block;
+vertical-align: top;
+width: 50%;
+}
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p,
+table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 {
+font-size: 2rem;
+margin: 2rem auto 1rem;
+text-align: center;
+}
+h2 {
+font-size: 1.75rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h3 {
+font-size: 1.5rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h4 {
+font-size: 1.25rem;
+margin: 2rem 0 1rem;
+}
+h5 {
+font-size: 1.2rem;
+margin: 2rem 0 1rem;
+}
+h6 {
+font-size: 1.1rem;
+margin: 2rem 0 1rem;
+}
+ul,
+ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li,
+ol li {
+padding-left: .5rem;
+}
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+width: 100% !important;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+img,
+iframe,
+figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+div.sourceCode {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+margin-top: 1rem;
+margin-bottom: 1rem;
+border-radius: 4px;
+padding: 1rem;
+}
+div.sourceCode pre,
+div.sourceCode code {
+background-color: transparent;
+margin: 0;
+}
+pre code,
+pre tt {
+background-color: transparent;
+border: none;
+}
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+margin: 0;
+padding: 0;
+vertical-align: top;
+border: none;
+}
+table.sourceCode pre {
+padding: 2px;
+margin: 0;
+border: none;
+color: inherit;
+}
+table.sourceCode code {
+color: inherit;
+}
+table.sourceCode {
+width: 100%;
+line-height: 100%;
+}
+td.lineNumbers {
+text-align: right;
+color: #aaaaaa;
+border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">JavaScriptでWebページを操作する</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習2</p>
+<p>Webページ上で動作するクライアントサイドJavaScriptの書き方をサンプルプログラムを実行しながら知ろう</p>
+</blockquote>
+<h1 id="クライアントサイドjavascript">クライアントサイドJavaScript</h1>
+<p>WebページでJavaScriptを使う上で、いくつか覚えてほしいことをまとめました。</p>
+<p>ポイントとしては、以下の項目が挙げられます。</p>
+<ul>
+<li>HTMLとDOM</li>
+<li>DOMから要素の取り出し</li>
+<li>要素自体の操作</li>
+<li>要素へイベントのアタッチ</li>
+</ul>
+<p>今回の資料では、ざっくりといくつかのサンプルプログラムとともにこれらの項目を知識として蓄えましょう。</p>
+<h1 id="javascriptでhtmlとcssを操作する">JavaScriptでHTMLとCSSを操作する</h1>
+<p>クライアントサイドJavaScriptでは、HTMLをDOMというJavaScriptのオブジェクトとして扱えるものを使用できます。
+DOMはHTMLの要素がツリー上に管理され、操作したい要素をJavaScriptのオブジェクトとして扱うことができます。</p>
+<h2 id="dom">DOM</h2>
+<p>JavaScriptでHTMLを操作するには、ある標準的な仕組みに基づいて行われます。<br />
+それがDOM(Document Object Model)と呼ばれるものです。</p>
+<p>事前に理解しておいて欲しいことは、「HTMLは
+<em><strong>階層構造</strong></em> になっている」という点です。</p>
+<p>htmlをトップレベルの階層として、head,bodyの要素が子の階層となり、それぞれさらに子要素が階層を構成しています。<br />
+この階層構造をツリー上の構造としてHTMLを解釈します。</p>
+<p>このツリー構造をDOMとしてJavaScriptから参照することで、それぞれの要素に対してアクセスできます。</p>
+<h2 id="htmlの要素を取得する">HTMLの要素を取得する</h2>
+<p>以下のコードを書いて、ボタンをクリックしてみましょう。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!doctype </span>html<span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;ja&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;title&gt;</span>JavaScript learning<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;h1</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;h1-id&quot;</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;h1-class&quot;</span><span class="kw">&gt;</span>JavaScript learning<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;script&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// #h1-idの要素を取得</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> elm <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;h1-id&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 要素のタグ内にあるHTMLをアラートで表示</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">window</span><span class="op">.</span><span class="fu">alert</span>(elm<span class="op">.</span><span class="at">innerHTML</span>)<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>window.alert()内の<code>document.getElementById(&#39;h1-id&#39;)</code>では、DOMよりid属性が「<code>h1-id</code>」のElement（つまり要素自体）を取得しています。</p>
+<p>アラート表示のタイミングで、それの<code>innerHTML</code>というプロパティを取得しています。</p>
+<p>また、以下のようにclassなどのHTML上で設定された属性値の取得も可能です。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">window</span><span class="op">.</span><span class="fu">alert</span>(<span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;h1-id&#39;</span>)<span class="op">.</span><span class="at">className</span>)<span class="op">;</span></span></code></pre></div>
+<p>取得した要素に対して、どんな操作が可能かは、以下のURLを参考にしてください。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/API/Element">Element -
+Web API インターフェイス | MDN</a></li>
+</ul>
+<h2 id="dom操作コードまとめ">DOM操作コードまとめ</h2>
+<h3 id="要素の取得">要素の取得</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">//id属性を指定して単一取得</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;id&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">// (指定されたid属性の値を持つ要素を一つ取得します。戻り値はHTMLElement)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">//class属性を指定して複数取得</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">getElementsByClassName</span>(<span class="st">&#39;class&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">// (指定されたクラスを持つ要素をすべて取得できます。(要素は複数取得されます。戻り値はHTMLCollection))</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">//タグ指定して複数取得</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">getElementsByTagName</span>(<span class="st">&#39;div&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">// (指定されたタグ名の要素をすべて取得できます。(要素は複数取得されます。戻り値はHTMLCollection))</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">//cssセレクタで指定し単一取得</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">&#39;#hoge .fuga p&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">// (指定されたセレクタが指し示す要素をDOMの先頭から一つだけ取得できます。(要素は単一取得されます。戻り値はHTMLElement, getElementByIdと同じ))</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">//cssセレクタで指定し複数取得</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(<span class="st">&#39;a&#39;</span>)<span class="op">;</span> </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">// (指定されたセレクタが指し示す要素をすべて取得できます。(要素は複数取得されます。戻り値はNodeList))</span></span></code></pre></div>
+<h4 id="複数取得された要素に対する処理">複数取得された要素に対する処理</h4>
+<p>以下のコードを使うと、複数取得された要素に対して要素1つずつの処理を書くことができます。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> elements <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementsByTagName</span>(<span class="st">&#39;div&#39;</span>)<span class="op">;</span>  <span class="co">// 戻値がHTMLCollectionでElementの配列として扱える</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Array</span><span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">forEach</span><span class="op">.</span><span class="fu">call</span>(elements<span class="op">,</span> <span class="kw">function</span>(element<span class="op">,</span> i){</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">//elementには、divタグの要素が一つづつ入り、すべてのdiv要素に対してこの関数の処理が行われます。</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">// ↓は↑のforEachと同じ処理ですが、実装がかなり簡素になります。(ES2015)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>elements<span class="op">.</span><span class="fu">forEach</span>((element<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>とすると、divタグの要素すべてに対して、処理を行えます。</p>
+<p>または、CSSのセレクタと同じように要素を取り出すことも可能です。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> elements <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(<span class="st">&#39;#target&gt;.class-name&#39;</span>)<span class="op">;</span>   <span class="co">// 戻り値がNodeListで取得でき、forEachで全体走査が可能</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Array</span><span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">forEach</span><span class="op">.</span><span class="fu">call</span>(elements<span class="op">,</span> <span class="kw">function</span>(element<span class="op">,</span> i){</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">//elementには、CSSのセレクタと同様に#target&gt;.class-nameで取得できる要素が一つづつ入り、セレクタに対応する要素すべてに対してこの関数の処理が行われます。</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">// ↓は↑のforEachと同じ処理ですが、実装がかなり簡素になります。(ES2015)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>elements<span class="op">.</span><span class="fu">forEach</span>((element<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="単一の要素から親子関係兄弟関係の要素へアクセスする">単一の要素から親子関係、兄弟関係の要素へアクセスする</h3>
+<p>JavaScriptであれば、CSSではできなかったDOMを辿っての親要素取得や、別の子要素へのアクセスも可能です。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> element <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;id&#39;</span>)<span class="op">;</span> <span class="co">// 要素を単一取得(Elementオブジェクト)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">// 親要素を取得</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">parentNode</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 子要素を取得</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">children</span><span class="op">;</span> <span class="co">// 子要素を配列で取得</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">firstElementChild</span><span class="op">;</span> <span class="co">// 子要素の中で最初に取得できる要素</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">lastElementChild</span><span class="op">;</span>  <span class="co">// 子要素の中で最後に取得できる要素</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">// 兄弟関係の１つ前の要素を取得</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">previousElementSibling</span><span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">// 兄弟関係の１つ前の要素を取得</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">nextElementSibling</span><span class="op">;</span></span></code></pre></div>
+<h3 id="要素を追加削除">要素を追加削除</h3>
+<p>JavaScriptで要素を作成し、DOMへの追加、削除も可能です。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> element <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;id&#39;</span>)<span class="op">;</span> <span class="co">// 要素を単一取得(Elementオブジェクト)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">// 要素を作成する</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> div <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">createElement</span>(<span class="st">&#39;div&#39;</span>)<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>div<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> <span class="st">&#39;hoge&#39;</span><span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">// 作成した要素を子要素として末尾に追加</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="fu">appendChild</span>(div)<span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">// 作成した要素を子要素として先頭に追加</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="fu">insertBefore</span>(div<span class="op">,</span> element<span class="op">.</span><span class="at">firstChild</span>)<span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">// 特定の子要素削除 chiidは取得された要素</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="fu">removeChild</span>(child)<span class="op">;</span> </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">// 子要素を全削除</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (element<span class="op">.</span><span class="at">firstChild</span>) {</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    element<span class="op">.</span><span class="fu">removeChild</span>(element<span class="op">.</span><span class="at">firstChild</span>)<span class="op">;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">// 特定の要素から要素自体を削除</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">parentNode</span><span class="op">.</span><span class="fu">removeChild</span>(element)<span class="op">;</span></span></code></pre></div>
+<h3 id="属性値を取得操作する">属性値を取得、操作する</h3>
+<p>HTMLの属性自体をJavaScriptから操作できます。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> element <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;id&#39;</span>)<span class="op">;</span> <span class="co">// 要素を単一取得(Elementオブジェクト)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">// 属性の存在チェック</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="fu">hasAttribute</span>(<span class="st">&#39;hoge&#39;</span>)<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">//属性を削除</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="fu">removeAttribute</span>(<span class="st">&#39;hoge&#39;</span>)<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">// 属性の取得 (存在しない場合はnullもしくは空文字が戻る)</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;hoge&#39;</span>)<span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">// 属性を設定</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&#39;href&#39;</span><span class="op">,</span> <span class="st">&#39;http://sample.com/&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="スタイル操作">スタイル操作</h3>
+<h4 id="class属性を操作する">class属性を操作する</h4>
+<p>CSSは先に定義しておき、JavaScriptからclass属性を追加削除しておくことでスタイルの操作が行えます。</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> element <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;id&#39;</span>)<span class="op">;</span> <span class="co">// 要素を単一取得(Elementオブジェクト)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">// class属性を追加</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">classList</span><span class="op">.</span><span class="fu">add</span>(<span class="st">&#39;fuga&#39;</span>)<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">// class属性を削除</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">classList</span><span class="op">.</span><span class="fu">remove</span>(<span class="st">&#39;hoge&#39;</span>)<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">//class属性をトグル(あれば削除、なければ追加)</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>element<span class="op">.</span><span class="at">classList</span><span class="op">.</span><span class="fu">toggle</span>(<span class="st">&#39;piyo&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>Webアプリの開発では、決められた装飾を何かしらのアクションで所定の要素に追加することが多いです。
+CSSで、事前にクラスで状態に応じた装飾をまとめておき、JavaScriptからclass属性を追加する手法が広く用いられています。</p>
+<h3 id="cssを直接操作する">CSSを直接操作する</h3>
+<p>取得したElementには、以下の様なスタイルを設定するプロパティがあります。</p>
+<pre class="javacript"><code>let element = document.getElementById(&#39;id&#39;); // 要素を単一取得(Elementオブジェクト)
+element.style;</code></pre>
+<p><code>style</code>プロパティ以下にはさらに個別のスタイルを取得・設定するためのプロパティがいくつかあります。
+試してみると良いでしょう。</p>
+<table>
+<thead>
+<tr class="header">
+<th>属性(一例)</th>
+<th>説明</th>
+<th>使用例(
+elementには、document.getElementById(&quot;idが入ります&quot;)の様にElementオブジェクトが入ります。
+)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>backgroundColor</td>
+<td>背景色</td>
+<td>element.style.backgroundColor = &quot;#BBCCDD&quot;</td>
+</tr>
+<tr class="even">
+<td>color</td>
+<td>文字色</td>
+<td>element.style.color = &quot;#BBCCDD&quot;</td>
+</tr>
+<tr class="odd">
+<td>visibility</td>
+<td>表示非表示</td>
+<td>element.style.visibility = &quot;hidden&quot; element.style.visibility =
+&quot;visible&quot;</td>
+</tr>
+<tr class="even">
+<td>position</td>
+<td>位置指定</td>
+<td>element.style.position = &quot;absolute&quot;</td>
+</tr>
+<tr class="odd">
+<td>borderWidth</td>
+<td>枠線の太さ</td>
+<td>element.style.borderWidth = &quot;2px&quot;</td>
+</tr>
+<tr class="even">
+<td>borderColor</td>
+<td>枠線の色</td>
+<td>element.style.borderColor = &quot;#645fa7&quot;</td>
+</tr>
+<tr class="odd">
+<td>borderStyle</td>
+<td>枠線の種類</td>
+<td>element.style.borderStyle = &quot;solid&quot;</td>
+</tr>
+<tr class="even">
+<td>width</td>
+<td>幅</td>
+<td>element.style.width = &quot;100px&quot;</td>
+</tr>
+<tr class="odd">
+<td>height</td>
+<td>高さ</td>
+<td>element.style.height = &quot;200px&quot;</td>
+</tr>
+<tr class="even">
+<td>top</td>
+<td>上位置</td>
+<td>element.style.top = 10</td>
+</tr>
+<tr class="odd">
+<td>left</td>
+<td>左位置</td>
+<td>element.style.left = 10</td>
+</tr>
+</tbody>
+</table>
+<p>また、CSSでは、<code>background-color</code>のようにハイフンで単語間を接続していた書き方（これをスネークケースなどと呼びます）です。
+JavaScriptでは、<code>backgroundColor</code>のように先頭を小文字で始め、単語間を次の単語の先頭文字を大文字にする書き方（ロウワーキャメルケースなどと呼びます）となります。</p>
+<p>CSSのプロパティ名をそのままJavaScriptで使用できるわけではありません。
+CSSプロパティ名にハイフンが入っている場合は注意してください。</p>
+<br>
+<br>
+<br>
+
+<hr />
+<h1 id="イベントアタッチ">イベントアタッチ</h1>
+<h2 id="プログラムが実行されるタイミング">プログラムが実行されるタイミング</h2>
+<p>JavaScriptのプログラムは、ファイルが読みこまれると同時にブラウザ上で実行されます。（scriptタグにsrc属性とdefer属性を付加した場合を除く）</p>
+<h3 id="イベントと紐付けてプログラムを実行しよう">イベントと紐付けてプログラムを実行しよう</h3>
+<p>今までのサンプルコードは、すべてJavaScriptが読み込まれたタイミング（HTMLとCSSが画面に完全に表示されるよりも前）で実行されています。</p>
+<p>これを、要素をクリックした時や、マウスオーバーした時などにプログラムを実行するようにしてみましょう。</p>
+<p>以下のサンプルソースでは、画像をクリックした際にアラートを表示するプログラムが書かれています。<br />
+画像は適当なものを用意してください。</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!doctype </span>html<span class="dt">&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;ja&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;title&gt;</span>JavaScript learning<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;h1&gt;</span>JavaScript learning<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;sample.jpg&quot;</span> <span class="er">onclick</span><span class="ot">=</span><span class="st">&quot;window.alert(&#39;クリックしたぜ！&#39;);&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<h2 id="htmlのイベント">HTMLのイベント</h2>
+<p>HTMLには、JavaScriptを実行させるトリガーになるイベントがいくつかあります。</p>
+<p>HTMLの要素に対して何らかの動きを付ける場合には必須になるテクニックです。</p>
+<h3 id="イベントにはどんなものがあるか">イベントにはどんなものがあるか</h3>
+<p>イベントの一部（主要なもの）を以下にまとめます。</p>
+<h4 id="ロードイベント">ロードイベント</h4>
+<p>以下は、読み込まれたタイミングで発生するイベントです。</p>
+<table>
+<thead>
+<tr class="header">
+<th>イベント属性名</th>
+<th>発生条件</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>onload</td>
+<td>要素が読み込まれた時</td>
+</tr>
+</tbody>
+</table>
+<h4 id="フォームイベント">フォームイベント</h4>
+<p>ユーザーへの入力を要求するformタグ内の要素に対して設定するのが一般的です。</p>
+<table>
+<thead>
+<tr class="header">
+<th>イベント属性名</th>
+<th>発生条件</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>onblur</td>
+<td>要素がフォーカスを失った時</td>
+</tr>
+<tr class="even">
+<td>onchange</td>
+<td>要素が変更された時</td>
+</tr>
+<tr class="odd">
+<td>oncontextmenu</td>
+<td>コンテキストメニュー(右クリックメニュー)を起動した時</td>
+</tr>
+<tr class="even">
+<td>onfocus</td>
+<td>要素にフォーカスが当った時</td>
+</tr>
+<tr class="odd">
+<td>onformchange</td>
+<td>フォームの内容が変更された時</td>
+</tr>
+<tr class="even">
+<td>onforminput</td>
+<td>フォームにユーザ入力があった時</td>
+</tr>
+<tr class="odd">
+<td>oninput</td>
+<td>要素にユーザ入力があった時</td>
+</tr>
+<tr class="even">
+<td>onselect</td>
+<td>要素が選択された時</td>
+</tr>
+<tr class="odd">
+<td>onsubmit</td>
+<td>フォームを送信した時</td>
+</tr>
+</tbody>
+</table>
+<h4 id="キーボードイベント">キーボードイベント</h4>
+<p>キーボードによる入力によって発生するイベント。すべてのHTML5要素に対して有効です。</p>
+<table>
+<thead>
+<tr class="header">
+<th>イベント属性名</th>
+<th>発生条件</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>onkeydown</td>
+<td>キーが押された時</td>
+</tr>
+<tr class="even">
+<td>onkeypress</td>
+<td>キーを押して放した時</td>
+</tr>
+<tr class="odd">
+<td>onkeyup</td>
+<td>キーを放した時</td>
+</tr>
+</tbody>
+</table>
+<h4 id="マウスイベント">マウスイベント</h4>
+<p>マウスの入力によって発生するイベント。すべてのHTML5要素に対して有効です。</p>
+<table>
+<thead>
+<tr class="header">
+<th>イベント属性名</th>
+<th>発生条件</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>onclick</td>
+<td>マウスクリック</td>
+</tr>
+<tr class="even">
+<td>ondblclick</td>
+<td>マウスのダブルクリック</td>
+</tr>
+<tr class="odd">
+<td>ondrag</td>
+<td>要素をドラッグした時</td>
+</tr>
+<tr class="even">
+<td>ondragend</td>
+<td>ドラッグ操作の最後</td>
+</tr>
+<tr class="odd">
+<td>ondragenter</td>
+<td>要素が有効なドロップ目標にドラッグされた時</td>
+</tr>
+<tr class="even">
+<td>ondragleave</td>
+<td>要素が有効なドロップ目標から離れた時</td>
+</tr>
+<tr class="odd">
+<td>ondragover</td>
+<td>要素が有効なドロップ目標の上にドラッグされている時</td>
+</tr>
+<tr class="even">
+<td>ondragstart</td>
+<td>ドラッグ操作を開始した時</td>
+</tr>
+<tr class="odd">
+<td>ondrop</td>
+<td>ドラッグした要素をドロップした時</td>
+</tr>
+<tr class="even">
+<td>onmousedown</td>
+<td>マウスボタンを押した時</td>
+</tr>
+<tr class="odd">
+<td>onmousemove</td>
+<td>マウスポインタを移動した時</td>
+</tr>
+<tr class="even">
+<td>onmouseout</td>
+<td>マウスポインタを要素の外へ移動した時</td>
+</tr>
+<tr class="odd">
+<td>onmouseover</td>
+<td>マウスポインタを要素の上に移動した時</td>
+</tr>
+<tr class="even">
+<td>onmouseup</td>
+<td>マウスボタンを放した時</td>
+</tr>
+<tr class="odd">
+<td>onmousewheel</td>
+<td>マウスホイールを回転した時</td>
+</tr>
+<tr class="even">
+<td>onscroll</td>
+<td>要素のスクロールバーをスクロールした時</td>
+</tr>
+</tbody>
+</table>
+<h3 id="イベントとjavascriptを関連付ける方法">イベントとJavaScriptを関連付ける方法</h3>
+<h4 id="htmlの属性として指定する">HTMLの属性として指定する</h4>
+<p>HTMLの属性として指定できます。</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;sample.jpg&quot;</span> <span class="er">onclick</span><span class="ot">=</span><span class="st">&quot;imageClick();&quot;</span><span class="kw">&gt;</span></span></code></pre></div>
+<p>関数については後述します。プログラムをまとめておく機能だと思ってください。</p>
+<p>前述のように、関数を指定しないで直接プログラムを書くこともできます。</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;sample.jpg&quot;</span> <span class="er">onclick</span><span class="ot">=</span><span class="st">&quot;window.alert(&#39;君、今クリックしたね！？&#39;);&quot;</span><span class="kw">&gt;</span></span></code></pre></div>
+<h4 id="javascriptからイベントを指定する">JavaScriptからイベントを指定する</h4>
+<p>JavaScriptでイベントにJavaScriptの関数を指定できます。</p>
+<h5 id="html">HTML</h5>
+<div class="sourceCode" id="cb14"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;sample.jpg&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;img1&quot;</span><span class="kw">&gt;</span></span></code></pre></div>
+<h5 id="javascript">JavaScript</h5>
+<div class="sourceCode" id="cb15"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">//画像クリック時の処理をまとめた関数</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> imageClick <span class="op">=</span> <span class="kw">function</span>(e) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">window</span><span class="op">.</span><span class="fu">alert</span>(<span class="st">&#39;画像クリックしたよね？&#39;</span>)<span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&quot;img1&quot;</span>)<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> imageClick)<span class="op">;</span></span></code></pre></div>
+<p>addEventListenerを使用します。</p>
+<p>addEventListenerには、2つの引数が必要で、1つ目がイベントの名前を設定します。このイベントの名前は、先ほどの要素に対するイベント属性から、「on」をなくした書き方で良いでしょう。(厳密には異なる場合もあります。)<br />
+2つ目は、関数自体を指定します。この時、関数名の後に<code>()</code>はつけません。（関数もJavaScriptではオブジェクトとして扱われます。）</p>
+<p>この書き方は、以下のように無名関数（上で言うimageClickなどの名前を設定しないその場限りの関数）を使用可能です。</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&quot;img1&quot;</span>)<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>(e) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">window</span><span class="op">.</span><span class="fu">alert</span>(<span class="st">&#39;画像クリックしたよね？&#39;</span>)<span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>JavaScriptからイベントを設定する方法は、これ以外にもいくつか方法がありますが、私のオススメの方法はaddEventListenerを使用する方法です。
+煩わしくなってしまうため、その他のイベント設定については省略します。</p>
+<h4 id="ページが開かれた後に実行する方法">ページが開かれた後に実行する方法</h4>
+<p>先ほども書いていますが、JavaScriptは「読みこまれたときに実行」されます。</p>
+<p>ページのレンダリングが終わったタイミングで処理を実行させるには、JavaScriptを外部ファイルとして、scriptタグに<code>defer</code>属性を付与しましょう。
+HTML読み込み完了後にJavaScriptを実行するようになります。（正確には<code>window</code>の<code>DOMContentLoaded</code>イベント発生後に実行される）</p>
+</body>
+</html>

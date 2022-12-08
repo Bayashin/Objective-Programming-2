@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>第2回課題解答例</title>
+  <style type="text/css">
+*, *::before, *::after {
+box-sizing: border-box;
+}
+code{ white-space: pre-wrap; }
+span.smallcaps{ font-variant: small-caps; }
+span.underline{ text-decoration: underline; }
+div.column{ display: inline-block; vertical-align: top; width: 50%; }
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p, table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1, h2, h3, h4, h5, h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 { font-size: 2rem; margin: 2rem auto 1rem; text-align: center; }
+h2 { font-size: 1.75rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2); margin: 2rem 0 1rem; }
+h3 { font-size: 1.5rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2); margin: 2rem 0 1rem; }
+h4 { font-size: 1.25rem; margin: 2rem 0 1rem; }
+h5 { font-size: 1.2rem; margin: 2rem 0 1rem; }
+h6 { font-size: 1.1rem; margin: 2rem 0 1rem; }
+ul, ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li, ol li {
+padding-left: .5rem;
+}
+ul ul, ol ul,
+ul ol, ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+pre, code, var, samp, kbd, .mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 1rem;
+border-radius: 4px;
+}
+pre code, pre tt {
+background-color: transparent;
+border: none;
+}
+pre.sourceCode {
+overflow: auto !important;
+}
+img, iframe, figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+</style>
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #c4a000; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #000000; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #000000; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #000000; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<h1 id="第２回課題解答例">第２回課題解答例</h1>
+<h2 id="課題1">課題1</h2>
+<p>解答例</p>
+<ul>
+<li>プログラム中のコメントを参照</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env python</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -*- coding: utf-8 -*-</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lecture02_01_printHeroStatus() <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ヒーローデータの読み込み</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    hero_header <span class="op">=</span> []</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    hero_data <span class="op">=</span> []</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;lecture02_Hero.csv&#39;</span>) <span class="im">as</span> f:</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        reader <span class="op">=</span> csv.reader(f)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> row <span class="kw">in</span> reader:</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(hero_header) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                hero_header <span class="op">=</span> row</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                hero_data.append(row)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 出力処理</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> hero <span class="kw">in</span> hero_data:</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> hero[<span class="dv">0</span>] <span class="op">==</span> <span class="st">&#39;1&#39;</span>: <span class="co"># idが1の場合</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="sc">{</span>hero[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">のステータスは&quot;</span> <span class="op">+</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f&quot;HP:</span><span class="sc">{</span>hero[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f&quot;MP:</span><span class="sc">{</span>hero[<span class="dv">3</span>]<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f&quot;Atk:</span><span class="sc">{</span>hero[<span class="dv">4</span>]<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f&quot;Def:</span><span class="sc">{</span>hero[<span class="dv">5</span>]<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f&quot;Age:</span><span class="sc">{</span>hero[<span class="dv">6</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lecture02_01_printWeaponStatus() <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 武器データの読み込み</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    weapon_header <span class="op">=</span> []</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    weapon_data <span class="op">=</span> []</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;lecture02_Weapon.csv&#39;</span>) <span class="im">as</span> f:</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        reader <span class="op">=</span> csv.reader(f)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> row <span class="kw">in</span> reader:</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(weapon_header) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                 weapon_header <span class="op">=</span> row</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                 weapon_data.append(row)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 出力処理</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> weapon <span class="kw">in</span> weapon_data:</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> weapon[<span class="dv">0</span>] <span class="op">==</span> <span class="st">&#39;1&#39;</span>: <span class="co"># idが1の場合</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="sc">{</span>weapon[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">のステータスは&quot;</span><span class="op">+</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f&quot;HP:</span><span class="sc">{</span>weapon[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f&quot;MP:</span><span class="sc">{</span>weapon[<span class="dv">3</span>]<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f&quot;Atk:</span><span class="sc">{</span>weapon[<span class="dv">4</span>]<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f&quot;Def:</span><span class="sc">{</span>weapon[<span class="dv">5</span>]<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f&quot;Age:</span><span class="sc">{</span>weapon[<span class="dv">6</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lecture02_01_printHeroStatusWithWeapon() <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ヒーローデータの読み込み</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    hero_header <span class="op">=</span> []</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    hero_data <span class="op">=</span> []</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;lecture02_Hero.csv&#39;</span>) <span class="im">as</span> f:</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>        reader <span class="op">=</span> csv.reader(f)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> row <span class="kw">in</span> reader:</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(hero_header) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>                hero_header <span class="op">=</span> row</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>                hero_data.append(row)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 変数に保存する</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for文の中で代入する前に外で変数を宣言する</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    hero_name <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    hero_hp <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    hero_mp <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    hero_atk <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    hero_def <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    hero_age <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    hero_weapon <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> hero <span class="kw">in</span> hero_data: <span class="co"># hero_dataはcsv読み取りなので何行入っているかわからない</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> hero[<span class="dv">0</span>] <span class="op">==</span> <span class="st">&#39;1&#39;</span>: <span class="co"># idが1のとき代入</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>            hero_name <span class="op">=</span> hero[<span class="dv">1</span>]</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>            hero_hp <span class="op">=</span> <span class="bu">int</span>(hero[<span class="dv">2</span>])</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>            hero_mp <span class="op">=</span> <span class="bu">int</span>(hero[<span class="dv">3</span>])</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>            hero_atk <span class="op">=</span> <span class="bu">int</span>(hero[<span class="dv">4</span>])</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>            hero_def <span class="op">=</span> <span class="bu">int</span>(hero[<span class="dv">5</span>])</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>            hero_age <span class="op">=</span> <span class="bu">int</span>(hero[<span class="dv">6</span>])</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>            hero_weapon <span class="op">=</span> hero[<span class="dv">7</span>]</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 武器データの読み込み</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    weapon_header <span class="op">=</span> []</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>    weapon_data <span class="op">=</span> []</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;lecture02_Weapon.csv&#39;</span>) <span class="im">as</span> f:</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>        reader <span class="op">=</span> csv.reader(f)</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> row <span class="kw">in</span> reader:</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(weapon_header) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>                 weapon_header <span class="op">=</span> row</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>                 weapon_data.append(row)</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 変数に保存する</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> <span class="bu">list</span>(<span class="bu">filter</span>(<span class="kw">lambda</span> x: x[<span class="dv">0</span>] <span class="op">==</span> hero_weapon, weapon_data))[<span class="dv">0</span>]</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ステータスを文字から数値へ変換</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>    w[<span class="dv">2</span>:<span class="dv">7</span>] <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, w[<span class="dv">2</span>:<span class="dv">7</span>]))</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>    <span class="co"># listの一部を変数へ代入</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>    weapon_name,weapon_hp,weapon_mp,weapon_atk,weapon_def,weapon_age <span class="op">=</span> w[<span class="dv">1</span>:<span class="dv">7</span>]</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 以下のようにheroと同様の方法で変数に保存してもOK</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>    <span class="co">#for weapon in weapon_data: # weapon_dataはcsv読み取りなので何行入っているかわからない</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>    <span class="co">#    if weapon[0] == hero_weapon:</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>    <span class="co">#        weapon_name = int(weapon[1])</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>    <span class="co">#        weapon_hp = int(weapon[2])</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>    <span class="co">#        weapon_mp = int(weapon[3])</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>    <span class="co">#        weapon_atk = int(weapon[4])</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>    <span class="co">#        weapon_def = int(weapon[5])</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>    <span class="co">#        weapon_age = int(weapon[6])</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ステータス情報を出力する</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="sc">{</span>weapon_name<span class="sc">}</span><span class="ss">を装備した</span><span class="sc">{</span>hero_name<span class="sc">}</span><span class="ss">のステータスは&quot;</span> <span class="op">+</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f&quot;HP:</span><span class="sc">{</span>hero_hp<span class="op">+</span>weapon_hp<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f&quot;MP:</span><span class="sc">{</span>hero_mp<span class="op">+</span>weapon_mp<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f&quot;Atk:</span><span class="sc">{</span>hero_atk<span class="op">+</span>weapon_atk<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f&quot;Def:</span><span class="sc">{</span>hero_def<span class="op">+</span>weapon_def<span class="sc">}</span><span class="ss">,&quot;</span> <span class="op">+</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f&quot;Age:</span><span class="sc">{</span>hero_age<span class="op">+</span>weapon_age<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>    lecture02_01_printHeroStatus()</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>    lecture02_01_printWeaponStatus()</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>    lecture02_01_printHeroStatusWithWeapon()</span></code></pre></div>
+<p>出力例</p>
+<pre><code>太郎のステータスはHP:100,MP:100,Atk:52,Def:39,Age:18 
+棍棒のステータスはHP:10,MP:0,Atk:20,Def:0,Age:-3
+棍棒を装備した太郎のステータスはHP:110,MP:100,Atk:72,Def:39,Age:15</code></pre>
+<h2 id="課題2">課題2</h2>
+<p>解答例</p>
+<ul>
+<li>プログラム中のコメントを参照</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env python</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -*- coding: utf-8 -*-</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xml.etree.ElementTree <span class="im">as</span> ET</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lecture02_02():</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    root <span class="op">=</span> ET.Element(<span class="st">&#39;book&#39;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ET.SubElementで子要素を作成</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    article <span class="op">=</span> ET.SubElement(root, <span class="st">&#39;article&#39;</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    article.attrib[<span class="st">&#39;title&#39;</span>]<span class="op">=</span><span class="st">&#39;卒業論文&#39;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># idについては１から昇順にならんでいるので先に作成しておく</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">6</span>):</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        chapter <span class="op">=</span> ET.SubElement(article, <span class="st">&#39;chapter&#39;</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        chapter.attrib[<span class="st">&#39;id&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 木構造の子要素へのアクセスには，リストにインデックスでアクセスするように書く</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">0</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;はじめに&#39;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">0</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">2</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">1</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;基礎理論&#39;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">1</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">8</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">2</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;実験方法&#39;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">2</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">6</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">3</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;結果と考察&#39;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">3</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">2</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">4</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;まとめ&#39;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">4</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">1</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">5</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;参考文献&#39;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    article[<span class="dv">5</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">2</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># novelの子要素を作成する．木の深さはarticleと同じでbookの直下</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    novel <span class="op">=</span> ET.SubElement(root, <span class="st">&#39;novel&#39;</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ここでは講義資料に基づいて子要素をリストに追加することにする</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    novel_chapters <span class="op">=</span> []</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        chapter <span class="op">=</span> ET.SubElement(novel, <span class="st">&#39;chapter&#39;</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        chapter.attrib[<span class="st">&#39;id&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        novel_chapters.append(chapter)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 子要素が入ったリストから要素をリストのインデックスで呼び出し修正</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">0</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;1日のはじまり&#39;</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">0</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">2</span>)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">1</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;朝食&#39;</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">1</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">8</span>)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">2</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;仕事&#39;</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">2</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">6</span>)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">3</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;帰宅後&#39;</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">3</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">2</span>)</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">4</span>].attrib[<span class="st">&#39;name&#39;</span>] <span class="op">=</span> <span class="st">&#39;新しい朝&#39;</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    novel_chapters[<span class="dv">4</span>].attrib[<span class="st">&#39;pages&#39;</span>] <span class="op">=</span> <span class="bu">str</span>(<span class="dv">1</span>)</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># write readable xml (have your attention to &#39;wb&#39;)</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;lecture02_data.xml&#39;</span>, <span class="st">&#39;wb&#39;</span>) <span class="im">as</span> f:</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>        <span class="im">import</span> xml.dom.minidom <span class="im">as</span> md</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>        f.write(md.parseString(ET.tostring(root, encoding<span class="op">=</span><span class="st">&#39;utf-8&#39;</span>, xml_declaration<span class="op">=</span><span class="va">True</span>)).toprettyxml(indent<span class="op">=</span><span class="st">&#39;  &#39;</span>,encoding<span class="op">=</span><span class="st">&quot;utf-8&quot;</span>))</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    lecture02_02()</span></code></pre></div>
+<p>出力例</p>
+<p>lecture02_02_data.xml</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">&quot;1.0&quot;</span><span class="ot"> encoding=</span><span class="st">&quot;utf-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">book</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">article</span><span class="ot"> title=</span><span class="st">&quot;卒業論文&quot;</span>&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;1&quot;</span><span class="ot"> name=</span><span class="st">&quot;はじめに&quot;</span><span class="ot"> pages=</span><span class="st">&quot;2&quot;</span>/&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;2&quot;</span><span class="ot"> name=</span><span class="st">&quot;基礎理論&quot;</span><span class="ot"> pages=</span><span class="st">&quot;8&quot;</span>/&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;3&quot;</span><span class="ot"> name=</span><span class="st">&quot;実験方法&quot;</span><span class="ot"> pages=</span><span class="st">&quot;6&quot;</span>/&gt;</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;4&quot;</span><span class="ot"> name=</span><span class="st">&quot;結果と考察&quot;</span><span class="ot"> pages=</span><span class="st">&quot;2&quot;</span>/&gt;</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;5&quot;</span><span class="ot"> name=</span><span class="st">&quot;まとめ&quot;</span><span class="ot"> pages=</span><span class="st">&quot;1&quot;</span>/&gt;</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;6&quot;</span><span class="ot"> name=</span><span class="st">&quot;参考文献&quot;</span><span class="ot"> pages=</span><span class="st">&quot;2&quot;</span>/&gt;</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">article</span>&gt;</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">novel</span>&gt;</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;1&quot;</span><span class="ot"> name=</span><span class="st">&quot;1日のはじまり&quot;</span><span class="ot"> pages=</span><span class="st">&quot;2&quot;</span>/&gt;</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;2&quot;</span><span class="ot"> name=</span><span class="st">&quot;朝食&quot;</span><span class="ot"> pages=</span><span class="st">&quot;8&quot;</span>/&gt;</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;3&quot;</span><span class="ot"> name=</span><span class="st">&quot;仕事&quot;</span><span class="ot"> pages=</span><span class="st">&quot;6&quot;</span>/&gt;</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;4&quot;</span><span class="ot"> name=</span><span class="st">&quot;帰宅後&quot;</span><span class="ot"> pages=</span><span class="st">&quot;2&quot;</span>/&gt;</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">chapter</span><span class="ot"> id=</span><span class="st">&quot;5&quot;</span><span class="ot"> name=</span><span class="st">&quot;新しい朝&quot;</span><span class="ot"> pages=</span><span class="st">&quot;1&quot;</span>/&gt;</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">novel</span>&gt;</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">book</span>&gt;</span></code></pre></div>
+<h2 id="評価方法">評価方法</h2>
+<ol type="1">
+<li>タイポ，インデントのずれなどプログラムとして実行できないものは評価しない．</li>
+<li>この課題については，簡易なミス（例えば，要件を１つ忘れていたなど）に限り減点はしない．</li>
+<li>遅れて提出された課題の採点はせず，提出点のみとする．</li>
+<li>課題１は数値のフィールドのみ足し合わせた出力でも減点はしない</li>
+<li>課題２は最終的なxmlの内容が正しければインデントや整形がされていなくても減点はしない</li>
+</ol>
+</body>
+</html>

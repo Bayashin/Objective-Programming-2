@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>http.serverを拡張したWebアプリケーションサーバーの作成</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #c4a000; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #000000; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #000000; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #000000; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+code {
+white-space: pre-wrap;
+}
+span.smallcaps {
+font-variant: small-caps;
+}
+span.underline {
+text-decoration: underline;
+}
+div.column {
+display: inline-block;
+vertical-align: top;
+width: 50%;
+}
+body {
+font-size: 14pt;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+Arial, "メイリオ", Meiryo, sans-serif;
+max-width: 1024px;
+margin: 0 auto;
+padding: 2em;
+background-color: #f8f8f8;
+color: #232323;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 6rem 0;
+background-color: #e7e7e7;
+border: 0 none;
+background:
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+p,
+table {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+line-height: 2rem;
+letter-spacing: 0.03rem;
+}
+strong {
+text-decoration: none;
+color: hsla(0, 75%, 55%, 1);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-weight: normal;
+color: #232323;
+letter-spacing: 0.05rem;
+margin-top: 2rem;
+}
+h1 {
+font-size: 2rem;
+margin: 2rem auto 1rem;
+text-align: center;
+}
+h2 {
+font-size: 1.75rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h3 {
+font-size: 1.5rem;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+margin: 2rem 0 1rem;
+}
+h4 {
+font-size: 1.25rem;
+margin: 2rem 0 1rem;
+}
+h5 {
+font-size: 1.2rem;
+margin: 2rem 0 1rem;
+}
+h6 {
+font-size: 1.1rem;
+margin: 2rem 0 1rem;
+}
+ul,
+ol {
+font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+line-height: 1.6;
+letter-spacing: 0.025rem;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+padding-left: 2rem;
+}
+ul li,
+ol li {
+padding-left: .5rem;
+}
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+padding-left: 1.5rem;
+}
+table {
+border-collapse: collapse;
+border: 1px solid rgba(0, 0, 0, 0.2);
+max-width: 100%;
+width: 100% !important;
+font-size: 1rem;
+overflow: auto;
+}
+table th {
+text-align: center;
+font-weight: nomal;
+background-color: #f0f0f0;
+color: rgba(0, 0, 0, 0.85);
+border: 1px solid rgba(0, 0, 0, 0.2);
+}
+table tr {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+table td {
+border: 1px solid rgba(0, 0, 0, 0.2);
+padding: 2px 8px;
+}
+a {
+color: #5484c8;
+}
+.margin-clear {
+margin-left: 0;
+}
+blockquote {
+border-left: 4px #ddd solid;
+padding: 0;
+margin: 2rem;
+}
+blockquote * {
+color: #999;
+}
+blockquote p {
+padding: 0 1rem;
+text-indent: 0;
+}
+img,
+iframe,
+figure {
+max-width: 100%;
+}
+p img {
+display: block;
+max-width: 100%;
+margin: 0 auto;
+}
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+line-height: 1.2;
+}
+table code,
+p code,
+ul code,
+ol code {
+display: inline-block;
+border: 1px solid #eaeaea;
+background-color: rgb(119, 119, 119);
+color: #f8f8f8;
+white-space: nowrap;
+border-radius: 2px;
+display: inline-block;
+padding-top: 6px;
+padding-left: 8px;
+padding-right: 8px;
+padding-bottom: 0px;
+margin: 0 4px;
+}
+pre code {
+border: 1px solid #eaeaea;
+background-color: #f5f5f5;
+border-radius: 2px;
+margin: 0;
+padding: 0;
+white-space: pre;
+font-size: 1rem;
+}
+.highlight pre {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+overflow: auto;
+padding: 6px 10px;
+border-radius: 4px;
+}
+div.sourceCode {
+background-color: #f5f5f5;
+border: 1px solid #cccccc;
+margin-top: 1rem;
+margin-bottom: 1rem;
+border-radius: 4px;
+padding: 1rem;
+}
+div.sourceCode pre,
+div.sourceCode code {
+background-color: transparent;
+margin: 0;
+}
+pre code,
+pre tt {
+background-color: transparent;
+border: none;
+}
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+margin: 0;
+padding: 0;
+vertical-align: top;
+border: none;
+}
+table.sourceCode pre {
+padding: 2px;
+margin: 0;
+border: none;
+color: inherit;
+}
+table.sourceCode code {
+color: inherit;
+}
+table.sourceCode {
+width: 100%;
+line-height: 100%;
+}
+td.lineNumbers {
+text-align: right;
+color: #aaaaaa;
+border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">http.serverを拡張したWebアプリケーションサーバーの作成</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習2</p>
+<p>Pythonの標準モジュールのhttp.serverを継承して、Webアプリケーションサーバーを作成しましょう。</p>
+</blockquote>
+<h2 id="httpserverモジュール">http.serverモジュール</h2>
+<ul>
+<li><a href="https://docs.python.org/ja/3.9/library/http.server.html#module-http.server" target="_blank">http.server
+--- HTTPサーバ — Pythonドキュメント</a></li>
+</ul>
+<p>Webサーバーの基本機能は、こちらのモジュールに搭載されています。</p>
+<p>Webサーバーの基本機能の大部分はそのままで継承を使い、HTTPリクエストを受け取った際に何かしらの処理を行うように一部の機能の拡張しましょう。</p>
+<p>http.serverのモジュールには、以下のクラスが用意されておりますが、今回は便宜上<code>http.server.BaseHTTPRequestHandler</code>を親クラスとして使用します。</p>
+<ul>
+<li><a href="https://docs.python.org/ja/3.9/library/http.server.html#http.server.BaseHTTPRequestHandler" target="_blank">http.server.BaseHTTPRequestHandler</a>（今回はこちらを使用）</li>
+<li><a href="https://docs.python.org/ja/3.9/library/http.server.html#http.server.SimpleHTTPRequestHandler" target="_blank">http.server.SimpleHTTPRequestHandler</a></li>
+<li><a href="https://docs.python.org/ja/3.9/library/http.server.html#http.server.CGIHTTPRequestHandler" target="_blank">http.serverCGIHTTPRequestHandler</a></li>
+</ul>
+<h3 id="basehttprequesthandlerの拡張クラスの作成">BaseHTTPRequestHandlerの拡張クラスの作成</h3>
+<p>以下のテンプレートを使用してください。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> http.server <span class="im">import</span> BaseHTTPRequestHandler, HTTPServer  <span class="co"># モジュールのインポート</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># BaseHTTPRequestHandlerを継承した自作クラスの定義</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyHTTPRequestHandler(BaseHTTPRequestHandler):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> do_GET(<span class="va">self</span>): <span class="co"># 親クラスの機能をオーバーライド</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Responseのステータスコード設定</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.send_response(<span class="dv">200</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ResponseHeaderのContent-type設定</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.send_header(<span class="st">&#39;Content-Type&#39;</span>, <span class="st">&#39;text/html; charset=utf-8&#39;</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ResponseHeader終端処理</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.end_headers()</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Responseコンテンツの構築</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.wfile.write(<span class="st">&#39;&lt;html&gt;Hello, World!! (from GET)&lt;/html&gt;&#39;</span>.encode())</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> do_POST(<span class="va">self</span>): <span class="co"># 親クラスの機能をオーバーライド</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.do_GET() <span class="co"># GETと同じ処理を通過させる</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># サーバーアドレスの定義</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    address <span class="op">=</span> (<span class="st">&#39;localhost&#39;</span>, <span class="dv">8888</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 自作クラスの呼び出し</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> HTTPServer(address, MyHTTPRequestHandler) <span class="im">as</span> server:</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        server.serve_forever()</span></code></pre></div>
+<p>実行後、Webブラウザで<code>http://localhost:8888</code>または<code>http://127.0.0.1:8888</code>へアクセスするか、以下のコマンドでHTTPリクエストを発行した結果を取得してください。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> curl <span class="at">-i</span> <span class="st">&#39;localhost:8888&#39;</span></span></code></pre></div>
+<h3 id="getメソッドpostメソッドでのパラメータの取得">GETメソッド、POSTメソッドでのパラメータの取得</h3>
+<p>BaseHTTPRequestHandlerを拡張したクラスでは、<code>do_????</code>に該当するHTTPメソッドごとの各メソッドにて取得できる<code>self</code>の各フィールドにリクエストヘッダの内容が含まれています。
+それらのフィールドからHTTPのリクエストパラメータを取得できます。</p>
+<p>以下のサンプルコードでは、リクエストパラメータが含まれるURLの解析をする標準ライブラリ<code>urllib.parse</code>(<a href="https://docs.python.org/ja/3.9/library/urllib.parse.html" target="_blank">urllib.parse
+--- URLを解析して構成要素にする</a>)を用います。
+このスクリプトでは、GETメソッド、POSTメソッドのリクエストパラメータを受け取り、内容を解析してHTMLで羅列しています。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> http.server <span class="im">import</span> BaseHTTPRequestHandler, HTTPServer  <span class="co"># モジュールのインポート</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.parse <span class="im">import</span> parse_qs, urlparse <span class="co"># URL解析モジュール</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyHTTPRequestHandler(BaseHTTPRequestHandler):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> do_GET(<span class="va">self</span>):</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># リクエストパスを表示</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="va">self</span>.path)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># リクエストパスから、リクエストパラメータ(URL内のパラメータ)を解析</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        parsed_param <span class="op">=</span> urlparse(<span class="va">self</span>.path)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 解析後のパラメータなしリクエストパス</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(parsed_param.path)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 解析後のリクエストパラメータのクエリのみ取り出し</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(parsed_param.query)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># クエリ文字列を連想配列に変換</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        params <span class="op">=</span> parse_qs(parsed_param.query)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(params)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ヘッダ全文の表示</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="va">self</span>.headers)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># レスポンスデータの組み立て</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.send_response(<span class="dv">200</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.send_header(<span class="st">&#39;Content-Type&#39;</span>, <span class="st">&#39;text/html; charset=utf-8&#39;</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.end_headers()</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.wfile.write(<span class="st">&#39;&lt;html&gt;Hello, World!!&lt;br&gt;&lt;br&gt;params: </span><span class="sc">{}</span><span class="st">&lt;/html&gt;&#39;</span>.<span class="bu">format</span>(params).encode())</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> do_POST(<span class="va">self</span>):</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># リクエストパスを表示</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="va">self</span>.path)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># リクエストパスから、リクエストパラメータ(URL内のパラメータ)を解析</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        parsed_param <span class="op">=</span> urlparse(<span class="va">self</span>.path)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 解析後のパラメータなしリクエストパス</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(parsed_param.path)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 解析後のリクエストパラメータのクエリのみ取り出し</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(parsed_param.query)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># クエリ文字列を連想配列に変換</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        params <span class="op">=</span> parse_qs(parsed_param.query)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(params)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ヘッダ全文の表示</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="va">self</span>.headers)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># POSTメソッドでのリクエストは、Request Body内に送信データが含まれる</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>        content_length <span class="op">=</span> <span class="bu">int</span>(<span class="va">self</span>.headers[<span class="st">&#39;content-length&#39;</span>])</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># RequestBodyの取得(コンテンツの長さ分リクエストデータから読み出して文字コード指定してデコード)</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        request_body <span class="op">=</span> <span class="va">self</span>.rfile.read(content_length).decode(<span class="st">&#39;utf-8&#39;</span>)</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(request_body)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># レスポンスデータの組み立て</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.send_response(<span class="dv">200</span>)</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.send_header(<span class="st">&#39;Content-Type&#39;</span>, <span class="st">&#39;text/html; charset=utf-8&#39;</span>)</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.end_headers()</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.wfile.write(<span class="st">&#39;&lt;html&gt;Hello, World!!&lt;br&gt;&lt;br&gt;params: </span><span class="sc">{}</span><span class="st">&lt;br&gt;request-body: </span><span class="sc">{}</span><span class="st">&lt;/html&gt;&#39;</span>.<span class="bu">format</span>(params, request_body).encode())</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># サーバーアドレスの定義</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    address <span class="op">=</span> (<span class="st">&#39;localhost&#39;</span>, <span class="dv">8888</span>)</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 自作クラスの呼び出し</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> HTTPServer(address, MyHTTPRequestHandler) <span class="im">as</span> server:</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>        server.serve_forever()</span></code></pre></div>
+<p>動作確認のためのHTMLを用意します。</p>
+<p>以下のHTMLファイルを適当な場所に作成し、FinderでダブルクリックしてHTMLファイルをブラウザで直接開きましょう。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;ja&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;title&gt;</span>動作確認フォーム<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1&gt;</span>動作確認フォーム<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h2&gt;</span>GETメソッドの動作確認<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;ol&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>通常のリクエスト - <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/&quot;</span><span class="kw">&gt;</span>http://localhost:8888/<span class="kw">&lt;/a&gt;&lt;/li&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>パラメータセット - <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/?hoge=hogehoge</span><span class="er">&amp;</span><span class="st">fuga=fugafuga&quot;</span><span class="kw">&gt;</span>http://localhost:8888/?hoge=hogehoge<span class="er">&amp;</span>fuga=fugafuga<span class="kw">&lt;/a&gt;&lt;/li&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>フォームから送信 - <span class="kw">&lt;br&gt;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;form</span> <span class="er">action</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/&quot;</span> <span class="er">method</span><span class="ot">=</span><span class="st">&quot;get&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input1&quot;</span><span class="kw">&gt;</span>hoge:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input1&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;hoge&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input2&quot;</span><span class="kw">&gt;</span>fuga:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input2&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;fuga&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input3&quot;</span><span class="kw">&gt;</span>piyo(number):<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;number&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input3&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;piyo&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;button</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span>送信<span class="kw">&lt;/button&gt;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/li&gt;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/ol&gt;</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;hr&gt;</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h2&gt;</span>POSTメソッドの動作確認<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;ol&gt;</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;li&gt;</span>フォームから送信 - <span class="kw">&lt;br&gt;</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;form</span> <span class="er">action</span><span class="ot">=</span><span class="st">&quot;http://localhost:8888/&quot;</span> <span class="er">method</span><span class="ot">=</span><span class="st">&quot;POST&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input1&quot;</span><span class="kw">&gt;</span>hoge:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input1&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;hoge&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input2&quot;</span><span class="kw">&gt;</span>fuga:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input2&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;fuga&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;div&gt;</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;input3&quot;</span><span class="kw">&gt;</span>piyo(number):<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>          <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;number&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;input3&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;piyo&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;button</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span>送信<span class="kw">&lt;/button&gt;</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/li&gt;</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/ol&gt;</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>それぞれの動作確認を行ってください。</p>
+<p>または、以下の<code>curl</code>コマンドでも代用できます。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> curl <span class="at">-i</span> <span class="st">&#39;localhost:8888/?hoge=hogehoge&amp;fuga=fugafuga&#39;</span> <span class="co"># GETメソッドテスト</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> curl <span class="at">-i</span> <span class="st">&#39;localhost:8888/?hoge=hogehoge&amp;fuga=fugafuga&#39;</span> <span class="at">-d</span> <span class="st">&#39;hoge=HOGE&amp;fuga=FUGA&#39;</span> <span class="co"># POSTメソッドテスト</span></span></code></pre></div>
+<h2 id="まとめ">まとめ</h2>
+<p>Pythonの標準モジュールである、<code>http.server</code>を拡張すれば、上記のような簡単なWebアプリケーションを作成できます。
+HTTPのリクエストデータを取得してさまざまな処理を行い、レスポンスデータとして結果を返すプログラムなどは、サンプルソースをさらに拡張すれば良いです。
+しかし、機能拡張の方法が、素のモジュールではできている静的ファイル（HTMLやCSSなど）のレスポンス自体を潰してしまっている機能拡張となってしまっています。
+このままもっとコードを追加していけば、静的ファイルの配布にも対応したWebアプリケーションも作成できるのですが、完成までの道のりが長すぎます。</p>
+<p>そこで、Webアプリケーションの作成に特化したライブラリを使用してもっと楽にWebアプリケーションを作成していく方法があります。
+次項より、Webアプリケーション作成のためのライブラリである<code>flask</code>をインストールして開発を進めます。</p>
+</body>
+</html>
